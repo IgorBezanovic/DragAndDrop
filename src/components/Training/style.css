@@ -1,0 +1,17 @@
+.choose-day{
+    display: flex;
+    width: 100vw;
+}
+
+.day{
+    padding: 15px;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border: none
+}
+.day:active{
+    background: #339DFF;
+}

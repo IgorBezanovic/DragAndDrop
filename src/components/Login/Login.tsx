@@ -1,36 +1,52 @@
-import React from 'react';
+import React, { ReactElement, useState } from 'react';
+import { useHistory } from "react-router-dom";
 import './style.css'
 
-const Login: React.FC = () => {
-    class Values {
-        username: String;
-        password: String ;
+type Values = {
+    username: string;
+    password: string ;
+}
 
-        constructor( username: string, password: string ) {
-            this.username = username;
-            this.password = password;
-          }
+type User = {
+    id: number;
+    username: string;
+    password: string;
+    role: string;
+}
+
+const users :User[] = [
+    {id: 1, username: 'Igor', password: 'Bezanovic', role: 'admin'}, 
+    {id: 2, username: 'Aleksa', password: 'Ivkovic', role: 'admin'}, 
+    {id: 3, username: 'Igor', password: 'Dragutinovic', role: 'user'}
+];
+
+const Login = () :ReactElement => {
+    let history = useHistory();
+    let [form, setForm] = useState<Values>({
+        username: "",
+        password: ""
+    });
+
+
+    const updateForm = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Values) => {
+        setForm({
+            ...form,
+            [field]: e.target.value,
+        });
     }
 
-    // let values :Values = new Values('Igor', 'Bezanovic');
-    let values :Values;
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        // localStorage.setItem('token', 'Igor');
-        // localStorage.setItem('token', '');
-
-        return ({ ...values, [event.target.name]: event.target.value });
-    };
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const users = [
-            {id: '1', username: 'Igor', password: 'Bezanovic', role: 'admin'}, 
-            {id: '2', username: 'Aleksa', password: 'Ivkovic', role: 'admin'}, 
-            {id: '3', username: 'Igor', password: 'Dragutinovic', role: 'user'}
-        ];
-        
-        console.log(users.map(user => user.username === values.username && user.password === values.password))
-        users.map(user => user.username === values.username && user.password === values.password)
-        console.log(...values.username)
+
+        let user = users.find(
+            (e) => e.username === form.username && e.password === form.password
+        );
+
+        if(user){
+            localStorage.setItem('name', user.username);
+            localStorage.setItem('role', user.role);
+            history.push('/home');
+        }
     }
 
     return ( 
@@ -43,7 +59,8 @@ const Login: React.FC = () => {
                         <input 
                             type="text" 
                             name='username' 
-                            onChange={onChange}
+                            onChange={(e) => updateForm(e, 'username')}
+                            value={form.username}
                             />
                     </label>
                     <label>
@@ -51,11 +68,12 @@ const Login: React.FC = () => {
                         <input 
                             type="password" 
                             name='password' 
-                            onChange={onChange}
+                            onChange={(e) => updateForm(e, 'password')}
+                            value={form.password}
                             />
                     </label>
                     <div>
-                        <button type="submit">Submit</button>
+                        <button className='submit' type="submit">Submit</button>
                     </div>
                 </form>
             </div>
