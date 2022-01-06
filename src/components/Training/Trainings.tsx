@@ -36,12 +36,20 @@ const listTrainings: Training[] = [
   { id: 15, day: "d2", startHours: "18:00", freeSpace: 16 },
   { id: 16, day: "d2", startHours: "19:00", freeSpace: 16 },
 ];
-const todayTrainings: Training[] = listTrainings.filter((item) => item.day !== "d2");
-const tomorrowTrainings: Training[] = listTrainings.filter((item) => item.day !== "d1");
+const todayTrainings: Training[] = listTrainings.filter(
+  (item) => item.day !== "d2"
+);
+const tomorrowTrainings: Training[] = listTrainings.filter(
+  (item) => item.day !== "d1"
+);
 
 const Trainings: React.FC = () => {
-  const [isToday, setToday] = useState(true);
-  const [isTomorrow, setTomorrow] = useState(false);
+  const [isToday, setToday] = useState<boolean>(true);
+  const [isTomorrow, setTomorrow] = useState<boolean>(false);
+  const [todayTrainingsList, setTodayTraining] =
+    useState<Training[]>(todayTrainings);
+  const [tomorrowTrainingsList, setTomorrowTraining] =
+    useState<Training[]>(tomorrowTrainings);
 
   const handleToday = () => {
     setToday(true);
@@ -53,22 +61,42 @@ const Trainings: React.FC = () => {
     setTomorrow(true);
   };
 
-  const takeSpot = (id :number) => {
-        let foundIndex  = todayTrainings.findIndex((item) => item.id === id)
-        if(todayTrainings[foundIndex].freeSpace !== 0){
-            --todayTrainings[foundIndex].freeSpace
-            if (todayTrainings[foundIndex].freeSpace < 1){
-                document.querySelector(`.training-termin-${todayTrainings[foundIndex].id}`)?.classList.add('redBorder')
-                document.querySelector(`.training-free-space-${todayTrainings[foundIndex].id}`)?.classList.add('redBorder')
-            } else if (todayTrainings[foundIndex].freeSpace <= 5){
-                document.querySelector(`.training-termin-${todayTrainings[foundIndex].id}`)?.classList.add('yellowBorder')
-                document.querySelector(`.training-free-space-${todayTrainings[foundIndex].id}`)?.classList.add('yellowBorder')
-            }
-        } else{
-            window.alert('Sva mesta su popunjana')
-        }
-        console.log(todayTrainings)
-  }
+  const takeSpot = (id: number) => {
+    let foundIndex: number = todayTrainingsList.findIndex(
+      (item) => item.id === id
+    );
+    if (!!todayTrainingsList[foundIndex].freeSpace) {
+      let newList: Training[] = [...todayTrainingsList];
+      newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
+      setTodayTraining(newList);
+      if (todayTrainingsList[foundIndex].freeSpace < 1) {
+        document
+          .querySelector(
+            `.training-termin-${todayTrainingsList[foundIndex].id}`
+          )
+          ?.classList.add("redBorder");
+        document
+          .querySelector(
+            `.training-free-space-${todayTrainingsList[foundIndex].id}`
+          )
+          ?.classList.add("redBorder");
+      } else if (todayTrainingsList[foundIndex].freeSpace <= 5) {
+        document
+          .querySelector(
+            `.training-termin-${todayTrainingsList[foundIndex].id}`
+          )
+          ?.classList.add("yellowBorder");
+        document
+          .querySelector(
+            `.training-free-space-${todayTrainingsList[foundIndex].id}`
+          )
+          ?.classList.add("yellowBorder");
+      }
+    } else {
+      window.alert("Sva mesta su popunjana");
+    }
+    console.log(todayTrainingsList);
+  };
 
   const renderContent = () => {
     if (isToday) {
@@ -76,17 +104,20 @@ const Trainings: React.FC = () => {
         <div className="content-training">
           <p className="content-title">Danasnji treninzi</p>
           <div className="grid-template">
-            {todayTrainings.map((item) => (
-                <div className="single-training-wrapper" key={item.id}>
-                    <div className="single-training">
-                        <p className={`training-termin training-termin-${item.id}`}>{item.startHours}</p>
-                        <button 
-                            className={`training-free-space training-free-space-${item.id}`}
-                            onClick={() => takeSpot(item.id)}
-                            >{item.freeSpace}
-                        </button>
-                    </div>
+            {todayTrainingsList.map((item) => (
+              <div className="single-training-wrapper" key={item.id}>
+                <div className="single-training">
+                  <p className={`training-termin training-termin-${item.id}`}>
+                    {item.startHours}
+                  </p>
+                  <button
+                    className={`training-free-space training-free-space-${item.id}`}
+                    onClick={() => takeSpot(item.id)}
+                  >
+                    {item.freeSpace}
+                  </button>
                 </div>
+              </div>
             ))}
           </div>
         </div>
@@ -95,7 +126,7 @@ const Trainings: React.FC = () => {
       return (
         <div>
           Sutrasnji treninzi
-          {tomorrowTrainings.map((item) => (
+          {tomorrowTrainingsList.map((item) => (
             <div key={item.id}>
               {item.startHours}, {item.freeSpace}
             </div>
