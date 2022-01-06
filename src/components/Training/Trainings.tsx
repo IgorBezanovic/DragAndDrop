@@ -80,7 +80,7 @@ const Trainings: React.FC = () => {
         )
     );
 
-    if (alreadyReserved.length === 0) {
+    if (!alreadyReserved.length) {
       if (!!todayTrainingsList[foundIndex].freeSpace) {
         let newList: Training[] = [...todayTrainingsList];
         newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
