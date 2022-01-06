@@ -36,6 +36,8 @@ const listTrainings: Training[] = [
   { id: 15, day: "d2", startHours: "18:00", freeSpace: 16 },
   { id: 16, day: "d2", startHours: "19:00", freeSpace: 16 },
 ];
+const todayTrainings: Training[] = listTrainings.filter((item) => item.day !== "d2");
+const tomorrowTrainings: Training[] = listTrainings.filter((item) => item.day !== "d1");
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState(true);
@@ -45,30 +47,55 @@ const Trainings: React.FC = () => {
     setToday(true);
     setTomorrow(false);
   };
+
   const handleTomorrow = () => {
     setToday(false);
     setTomorrow(true);
   };
 
+  const takeSpot = (id :number) => {
+        let foundIndex  = todayTrainings.findIndex((item) => item.id === id)
+        if(todayTrainings[foundIndex].freeSpace !== 0){
+            --todayTrainings[foundIndex].freeSpace
+            if (todayTrainings[foundIndex].freeSpace < 1){
+                document.querySelector(`.training-termin-${todayTrainings[foundIndex].id}`)?.classList.add('redBorder')
+                document.querySelector(`.training-free-space-${todayTrainings[foundIndex].id}`)?.classList.add('redBorder')
+            } else if (todayTrainings[foundIndex].freeSpace <= 5){
+                document.querySelector(`.training-termin-${todayTrainings[foundIndex].id}`)?.classList.add('yellowBorder')
+                document.querySelector(`.training-free-space-${todayTrainings[foundIndex].id}`)?.classList.add('yellowBorder')
+            }
+        } else{
+            window.alert('Sva mesta su popunjana')
+        }
+        console.log(todayTrainings)
+  }
+
   const renderContent = () => {
     if (isToday) {
-      const todayTermins = listTrainings.filter((item) => item.day !== "d2");
       return (
-        <div>
-          Danasnji treninzi
-          {todayTermins.map((item) => (
-            <div key={item.id}>
-              {item.startHours}, {item.freeSpace}
-            </div>
-          ))}
+        <div className="content-training">
+          <p className="content-title">Danasnji treninzi</p>
+          <div className="grid-template">
+            {todayTrainings.map((item) => (
+                <div className="single-training-wrapper" key={item.id}>
+                    <div className="single-training">
+                        <p className={`training-termin training-termin-${item.id}`}>{item.startHours}</p>
+                        <button 
+                            className={`training-free-space training-free-space-${item.id}`}
+                            onClick={() => takeSpot(item.id)}
+                            >{item.freeSpace}
+                        </button>
+                    </div>
+                </div>
+            ))}
+          </div>
         </div>
       );
     } else {
-      const tomorrowTermins = listTrainings.filter((item) => item.day !== "d1");
       return (
         <div>
           Sutrasnji treninzi
-          {tomorrowTermins.map((item) => (
+          {tomorrowTrainings.map((item) => (
             <div key={item.id}>
               {item.startHours}, {item.freeSpace}
             </div>
