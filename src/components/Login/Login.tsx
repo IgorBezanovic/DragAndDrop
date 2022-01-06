@@ -44,6 +44,7 @@ const Login = () :ReactElement => {
 
         if(user){
             localStorage.setItem('name', user.username);
+            localStorage.setItem('lastName', user.password);
             localStorage.setItem('role', user.role);
             history.push('/home');
         }

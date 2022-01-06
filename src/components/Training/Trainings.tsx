@@ -6,8 +6,12 @@ type Training = {
   day: string;
   startHours: string;
   freeSpace: number;
+  members: Member[];
 };
-
+type Member = {
+  name: string | null;
+  lastName: string | null;
+};
 type Days = {
   id: string;
   day: string;
@@ -19,22 +23,22 @@ const listDays: Days[] = [
 ];
 
 const listTrainings: Training[] = [
-  { id: 1, day: "d1", startHours: "09:00", freeSpace: 12 },
-  { id: 2, day: "d1", startHours: "10:00", freeSpace: 12 },
-  { id: 3, day: "d1", startHours: "11:00", freeSpace: 12 },
-  { id: 4, day: "d1", startHours: "15:00", freeSpace: 16 },
-  { id: 5, day: "d1", startHours: "16:00", freeSpace: 16 },
-  { id: 6, day: "d1", startHours: "17:00", freeSpace: 16 },
-  { id: 7, day: "d1", startHours: "18:00", freeSpace: 16 },
-  { id: 8, day: "d1", startHours: "19:00", freeSpace: 16 },
-  { id: 9, day: "d2", startHours: "09:00", freeSpace: 12 },
-  { id: 10, day: "d2", startHours: "10:00", freeSpace: 12 },
-  { id: 11, day: "d2", startHours: "11:00", freeSpace: 12 },
-  { id: 12, day: "d2", startHours: "15:00", freeSpace: 16 },
-  { id: 13, day: "d2", startHours: "16:00", freeSpace: 16 },
-  { id: 14, day: "d2", startHours: "17:00", freeSpace: 16 },
-  { id: 15, day: "d2", startHours: "18:00", freeSpace: 16 },
-  { id: 16, day: "d2", startHours: "19:00", freeSpace: 16 },
+  { id: 1, day: "d1", startHours: "09:00", freeSpace: 12, members: [] },
+  { id: 2, day: "d1", startHours: "10:00", freeSpace: 12, members: [] },
+  { id: 3, day: "d1", startHours: "11:00", freeSpace: 12, members: [] },
+  { id: 4, day: "d1", startHours: "15:00", freeSpace: 16, members: [] },
+  { id: 5, day: "d1", startHours: "16:00", freeSpace: 16, members: [] },
+  { id: 6, day: "d1", startHours: "17:00", freeSpace: 16, members: [] },
+  { id: 7, day: "d1", startHours: "18:00", freeSpace: 16, members: [] },
+  { id: 8, day: "d1", startHours: "19:00", freeSpace: 16, members: [] },
+  { id: 9, day: "d2", startHours: "09:00", freeSpace: 12, members: [] },
+  { id: 10, day: "d2", startHours: "10:00", freeSpace: 12, members: [] },
+  { id: 11, day: "d2", startHours: "11:00", freeSpace: 12, members: [] },
+  { id: 12, day: "d2", startHours: "15:00", freeSpace: 16, members: [] },
+  { id: 13, day: "d2", startHours: "16:00", freeSpace: 16, members: [] },
+  { id: 14, day: "d2", startHours: "17:00", freeSpace: 16, members: [] },
+  { id: 15, day: "d2", startHours: "18:00", freeSpace: 16, members: [] },
+  { id: 16, day: "d2", startHours: "19:00", freeSpace: 16, members: [] },
 ];
 const todayTrainings: Training[] = listTrainings.filter(
   (item) => item.day !== "d2"
@@ -65,35 +69,54 @@ const Trainings: React.FC = () => {
     let foundIndex: number = todayTrainingsList.findIndex(
       (item) => item.id === id
     );
-    if (!!todayTrainingsList[foundIndex].freeSpace) {
-      let newList: Training[] = [...todayTrainingsList];
-      newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
-      setTodayTraining(newList);
-      if (todayTrainingsList[foundIndex].freeSpace < 1) {
-        document
-          .querySelector(
-            `.training-termin-${todayTrainingsList[foundIndex].id}`
-          )
-          ?.classList.add("redBorder");
-        document
-          .querySelector(
-            `.training-free-space-${todayTrainingsList[foundIndex].id}`
-          )
-          ?.classList.add("redBorder");
-      } else if (todayTrainingsList[foundIndex].freeSpace <= 5) {
-        document
-          .querySelector(
-            `.training-termin-${todayTrainingsList[foundIndex].id}`
-          )
-          ?.classList.add("yellowBorder");
-        document
-          .querySelector(
-            `.training-free-space-${todayTrainingsList[foundIndex].id}`
-          )
-          ?.classList.add("yellowBorder");
+
+    let alreadyReserved = todayTrainingsList.filter(
+      (training) =>
+        training.id === id &&
+        training.members.find(
+          (member) =>
+            member.name === localStorage.getItem("name") &&
+            member.lastName === localStorage.getItem("lastName")
+        )
+    );
+
+    if (alreadyReserved.length === 0) {
+      if (!!todayTrainingsList[foundIndex].freeSpace) {
+        let newList: Training[] = [...todayTrainingsList];
+        newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
+        newList[foundIndex].members.push({
+          name: localStorage.getItem("name"),
+          lastName: localStorage.getItem("lastName"),
+        });
+        setTodayTraining(newList);
+        if (todayTrainingsList[foundIndex].freeSpace < 1) {
+          document
+            .querySelector(
+              `.training-termin-${todayTrainingsList[foundIndex].id}`
+            )
+            ?.classList.add("redBorder");
+          document
+            .querySelector(
+              `.training-free-space-${todayTrainingsList[foundIndex].id}`
+            )
+            ?.classList.add("redBorder");
+        } else if (todayTrainingsList[foundIndex].freeSpace <= 5) {
+          document
+            .querySelector(
+              `.training-termin-${todayTrainingsList[foundIndex].id}`
+            )
+            ?.classList.add("yellowBorder");
+          document
+            .querySelector(
+              `.training-free-space-${todayTrainingsList[foundIndex].id}`
+            )
+            ?.classList.add("yellowBorder");
+        }
+      } else {
+        window.alert("Sva mesta su popunjana");
       }
     } else {
-      window.alert("Sva mesta su popunjana");
+      window.alert("Vec ste zakazali trening u ovom terminu! :)");
     }
     console.log(todayTrainingsList);
   };
