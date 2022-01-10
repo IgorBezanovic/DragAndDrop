@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./style.css";
-import { Training } from '../../models/training.model'
-import { listDays } from '../../service/listDays'
-import { listTrainings } from '../../service/listTrainings'
+import { Training } from "../../models/training.model";
+import { listDays } from "../../service/listDays";
+import { listTrainings } from "../../service/listTrainings";
 
 const todayTrainings: Training[] = listTrainings.filter(
   (item) => item.day !== "d2"
@@ -29,12 +29,10 @@ const Trainings: React.FC = () => {
     setTomorrow(true);
   };
 
-  const takeSpot = (id: number) => {
-    let foundIndex: number = todayTrainingsList.findIndex(
-      (item) => item.id === id
-    );
+  const takeSpot = (id: number, day :string) => {
+    let foundIndex: number = listTrainings.findIndex((item) => item.id === id);
 
-    let alreadyReserved = todayTrainingsList.filter(
+    let alreadyReserved = listTrainings.filter(
       (training) =>
         training.id === id &&
         training.members.find(
@@ -45,45 +43,27 @@ const Trainings: React.FC = () => {
     );
 
     if (!alreadyReserved.length) {
-      if (!!todayTrainingsList[foundIndex].freeSpace) {
-        let newList: Training[] = [...todayTrainingsList];
+      if (!!listTrainings[foundIndex].freeSpace && listTrainings[foundIndex].day === day) {
+        let newList: Training[] = [...listTrainings];
         newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
         newList[foundIndex].members.push({
-            id: 1,
-            name: localStorage.getItem("name"),
-            lastName: localStorage.getItem("lastName"),
+          id: newList[foundIndex].members.length + 1,
+          name: localStorage.getItem("name"),
+          lastName: localStorage.getItem("lastName"),
         });
-        setTodayTraining(newList);
-        if (todayTrainingsList[foundIndex].freeSpace < 1) {
-          document
-            .querySelector(
-              `.training-termin-${todayTrainingsList[foundIndex].id}`
-            )
-            ?.classList.add("redBorder");
-          document
-            .querySelector(
-              `.training-free-space-${todayTrainingsList[foundIndex].id}`
-            )
-            ?.classList.add("redBorder");
-        } else if (todayTrainingsList[foundIndex].freeSpace <= 5) {
-          document
-            .querySelector(
-              `.training-termin-${todayTrainingsList[foundIndex].id}`
-            )
-            ?.classList.add("yellowBorder");
-          document
-            .querySelector(
-              `.training-free-space-${todayTrainingsList[foundIndex].id}`
-            )
-            ?.classList.add("yellowBorder");
+
+        if(newList[foundIndex].day === 'd1'){
+            setTodayTraining(newList.filter(list => list.day === day));
+        }else {
+            setTomorrowTraining(newList.filter(list => list.day === day))
         }
+        window.alert("Uspešno ste zakazali trening! :)")
       } else {
         window.alert("Sva mesta su popunjana");
       }
     } else {
       window.alert("Vec ste zakazali trening u ovom terminu! :)");
     }
-    console.log(todayTrainingsList);
   };
 
   const renderContent = () => {
@@ -95,12 +75,28 @@ const Trainings: React.FC = () => {
             {todayTrainingsList.map((item) => (
               <div className="single-training-wrapper" key={item.id}>
                 <div className="single-training">
-                  <p className={`training-termin training-termin-${item.id}`}>
+                  <p
+                    className="training-termin"
+                    style={
+                      item.freeSpace < 1
+                        ? { border: "1px solid red" }
+                        : item.freeSpace < 5
+                        ? { border: "1px solid yellow" }
+                        : {}
+                    }
+                  >
                     {item.startHours}
                   </p>
                   <button
-                    className={`training-free-space training-free-space-${item.id}`}
-                    onClick={() => takeSpot(item.id)}
+                    className="training-free-space"
+                    style={
+                      item.freeSpace < 1
+                        ? { border: "1px solid red" }
+                        : item.freeSpace < 5
+                        ? { border: "1px solid yellow" }
+                        : {}
+                    }
+                    onClick={() => takeSpot(item.id, item.day)}
                   >
                     {item.freeSpace}
                   </button>
@@ -112,13 +108,41 @@ const Trainings: React.FC = () => {
       );
     } else {
       return (
-        <div>
-          Sutrasnji treninzi
-          {tomorrowTrainingsList.map((item) => (
-            <div key={item.id}>
-              {item.startHours}, {item.freeSpace}
-            </div>
-          ))}
+        <div className="content-training">
+          <p className="content-title">Sutrasnji treninzi</p>
+          <div className="grid-template">
+            {tomorrowTrainingsList.map((item) => (
+              <div className="single-training-wrapper" key={item.id}>
+                <div className="single-training">
+                  <p
+                    className="training-termin"
+                    style={
+                      item.freeSpace < 1
+                        ? { border: "1px solid red" }
+                        : item.freeSpace < 5
+                        ? { border: "1px solid yellow" }
+                        : {}
+                    }
+                  >
+                    {item.startHours}
+                  </p>
+                  <button
+                    className="training-free-space"
+                    style={
+                      item.freeSpace < 1
+                        ? { border: "1px solid red" }
+                        : item.freeSpace < 5
+                        ? { border: "1px solid yellow" }
+                        : {}
+                    }
+                    onClick={() => takeSpot(item.id , item.day)}
+                  >
+                    {item.freeSpace}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       );
     }

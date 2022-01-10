@@ -8,6 +8,7 @@ const Home: React.FC = () => {
 
     const renderContent = () => {
         if(role === 'admin'){
+            console.log(listTrainings)
             return(
                 <div>
                     {listTrainings.map(item => <div key={item.id}>{item.startHours},  {item.members.map(member => <div key={member.id}>{member.name} {member.lastName}</div>)}</div> )}

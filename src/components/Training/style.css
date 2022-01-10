@@ -49,6 +49,7 @@
     justify-content: center;
     border: 1px solid #339DFF;
     font-weight: 700;
+    cursor: pointer;
 }
 .training-termin{
     border-top-left-radius: 50px;
@@ -59,10 +60,4 @@
     border-bottom-left-radius: 50px;
     border-bottom-right-radius: 50px;
     margin-top: 5px;
-}
-.yellowBorder{
-    border: 1px solid #c9ff33;
-}
-.redBorder{
-    border: 1px solid red;
 }
