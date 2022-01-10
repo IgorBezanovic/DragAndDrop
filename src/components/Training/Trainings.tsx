@@ -29,7 +29,7 @@ const Trainings: React.FC = () => {
     setTomorrow(true);
   };
 
-  const takeSpot = (id: number, day :string) => {
+  const takeSpot = (id: number, day: string) => {
     let foundIndex: number = listTrainings.findIndex((item) => item.id === id);
 
     let alreadyReserved = listTrainings.filter(
@@ -43,7 +43,10 @@ const Trainings: React.FC = () => {
     );
 
     if (!alreadyReserved.length) {
-      if (!!listTrainings[foundIndex].freeSpace && listTrainings[foundIndex].day === day) {
+      if (
+        !!listTrainings[foundIndex].freeSpace &&
+        listTrainings[foundIndex].day === day
+      ) {
         let newList: Training[] = [...listTrainings];
         newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
         newList[foundIndex].members.push({
@@ -51,13 +54,13 @@ const Trainings: React.FC = () => {
           name: localStorage.getItem("name"),
           lastName: localStorage.getItem("lastName"),
         });
-
-        if(newList[foundIndex].day === 'd1'){
-            setTodayTraining(newList.filter(list => list.day === day));
-        }else {
-            setTomorrowTraining(newList.filter(list => list.day === day))
+        console.log(newList)
+        if (newList[foundIndex].day === "d1") {
+          setTodayTraining(newList.filter((list) => list.day === day));
+        } else {
+          setTomorrowTraining(newList.filter((list) => list.day === day));
         }
-        window.alert("Uspešno ste zakazali trening! :)")
+        window.alert("Uspešno ste zakazali trening! :)");
       } else {
         window.alert("Sva mesta su popunjana");
       }
