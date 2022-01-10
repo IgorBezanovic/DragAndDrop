@@ -50,6 +50,13 @@
     border: 1px solid #339DFF;
     font-weight: 700;
     cursor: pointer;
+    transition: 0.2s ease-in-out;
+    box-shadow: 6px 6px 12px #b8b9be;
+}
+.training-termin:hover, .training-free-space:hover{
+    transition: 0.2s ease-in-out;
+    box-shadow: 2px 2px 6px #b8b9be;
+
 }
 .training-termin{
     border-top-left-radius: 50px;
