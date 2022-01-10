@@ -1,45 +1,9 @@
 import React, { useState } from "react";
 import "./style.css";
+import { Training } from '../../models/training.model'
+import { listDays } from '../../service/listDays'
+import { listTrainings } from '../../service/listTrainings'
 
-type Training = {
-  id: number;
-  day: string;
-  startHours: string;
-  freeSpace: number;
-  members: Member[];
-};
-type Member = {
-  name: string | null;
-  lastName: string | null;
-};
-type Days = {
-  id: string;
-  day: string;
-};
-
-const listDays: Days[] = [
-  { id: "d1", day: "Today" },
-  { id: "d2", day: "Tomorrow" },
-];
-
-const listTrainings: Training[] = [
-  { id: 1, day: "d1", startHours: "09:00", freeSpace: 12, members: [] },
-  { id: 2, day: "d1", startHours: "10:00", freeSpace: 12, members: [] },
-  { id: 3, day: "d1", startHours: "11:00", freeSpace: 12, members: [] },
-  { id: 4, day: "d1", startHours: "15:00", freeSpace: 16, members: [] },
-  { id: 5, day: "d1", startHours: "16:00", freeSpace: 16, members: [] },
-  { id: 6, day: "d1", startHours: "17:00", freeSpace: 16, members: [] },
-  { id: 7, day: "d1", startHours: "18:00", freeSpace: 16, members: [] },
-  { id: 8, day: "d1", startHours: "19:00", freeSpace: 16, members: [] },
-  { id: 9, day: "d2", startHours: "09:00", freeSpace: 12, members: [] },
-  { id: 10, day: "d2", startHours: "10:00", freeSpace: 12, members: [] },
-  { id: 11, day: "d2", startHours: "11:00", freeSpace: 12, members: [] },
-  { id: 12, day: "d2", startHours: "15:00", freeSpace: 16, members: [] },
-  { id: 13, day: "d2", startHours: "16:00", freeSpace: 16, members: [] },
-  { id: 14, day: "d2", startHours: "17:00", freeSpace: 16, members: [] },
-  { id: 15, day: "d2", startHours: "18:00", freeSpace: 16, members: [] },
-  { id: 16, day: "d2", startHours: "19:00", freeSpace: 16, members: [] },
-];
 const todayTrainings: Training[] = listTrainings.filter(
   (item) => item.day !== "d2"
 );
@@ -85,8 +49,9 @@ const Trainings: React.FC = () => {
         let newList: Training[] = [...todayTrainingsList];
         newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
         newList[foundIndex].members.push({
-          name: localStorage.getItem("name"),
-          lastName: localStorage.getItem("lastName"),
+            id: 1,
+            name: localStorage.getItem("name"),
+            lastName: localStorage.getItem("lastName"),
         });
         setTodayTraining(newList);
         if (todayTrainingsList[foundIndex].freeSpace < 1) {
