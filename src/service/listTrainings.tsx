@@ -1,4 +1,4 @@
-import { Training } from '../models/training.model'
+import { Training } from '../types/training.model'
 
 export const listTrainings: Training[] = [
     { id: 1, day: "d1", startHours: "09:00", freeSpace: 12, members: [] },

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Routes from './common/routes'
-import Login from "./components/Login/Login";
+import Login from "./containers/Login/Login";
 
 const App: React.FC = () => {
   const user :string | null = localStorage.getItem('name');

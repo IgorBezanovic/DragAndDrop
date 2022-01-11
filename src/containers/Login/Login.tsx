@@ -1,24 +1,8 @@
 import React, { ReactElement, useState } from 'react';
 import { useHistory } from "react-router-dom";
+import { Values } from "../../types/values.model"
+import { users } from "../../service/listUsers"
 import './style.css'
-
-type Values = {
-    username: string;
-    password: string ;
-}
-
-type User = {
-    id: number;
-    username: string;
-    password: string;
-    role: string;
-}
-
-const users :User[] = [
-    {id: 1, username: 'Igor', password: 'Bezanovic', role: 'admin'}, 
-    {id: 2, username: 'Aleksa', password: 'Ivkovic', role: 'admin'}, 
-    {id: 3, username: 'Igor', password: 'Dragutinovic', role: 'user'}
-];
 
 const Login = () :ReactElement => {
     let history = useHistory();
