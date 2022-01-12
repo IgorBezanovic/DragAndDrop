@@ -2,20 +2,22 @@ import React, { useState } from "react";
 import "./style.css";
 import { Training } from "../../types/training.model";
 import { listDays } from "../../service/listDays";
-import { listTrainings } from "../../service/listTrainings";
+import listTrainings from "../../service/newList";
 import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
-
-const todayTrainings: Training[] = listTrainings.filter(
-  (item) => item.day !== "d2"
-);
-const tomorrowTrainings: Training[] = listTrainings.filter(
-  (item) => item.day !== "d1"
-);
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState<boolean>(true);
   const [isTomorrow, setTomorrow] = useState<boolean>(false);
+
+  let todayTrainings: Training[] = listTrainings.listTrainings.filter(
+    (item) => item.day !== "d2"
+  );
+
+  let tomorrowTrainings: Training[] = listTrainings.listTrainings.filter(
+    (item) => item.day !== "d1"
+  );
+
   const [todayTrainingsList, setTodayTraining] =
     useState<Training[]>(todayTrainings);
   const [tomorrowTrainingsList, setTomorrowTraining] =
@@ -32,9 +34,7 @@ const Trainings: React.FC = () => {
   };
 
   const takeSpot = (id: number, day: string) => {
-    let foundIndex: number = listTrainings.findIndex((item) => item.id === id);
-
-    let alreadyReserved = listTrainings.filter(
+    let alreadyReserved = listTrainings.listTrainings.filter(
       (training) =>
         training.id === id &&
         training.members.find(
@@ -43,31 +43,30 @@ const Trainings: React.FC = () => {
             member.lastName === localStorage.getItem("lastName")
         )
     );
+    let freeSpace = listTrainings.listTrainings.filter(
+      (item) => item.id === id
+    );
 
-    if (!alreadyReserved.length) {
-      if (
-        !!listTrainings[foundIndex].freeSpace &&
-        listTrainings[foundIndex].day === day
-      ) {
-        let newList: Training[] = [...listTrainings];
-        newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
-        newList[foundIndex].members.push({
-          id: newList[foundIndex].members.length + 1,
+    if (freeSpace.map((item) => item.freeSpace !== 0)) {
+      if (!alreadyReserved.length) {
+        let newMember = {
+          id: 111111,
           name: localStorage.getItem("name"),
           lastName: localStorage.getItem("lastName"),
-        });
-        console.log(newList);
-        if (newList[foundIndex].day === "d1") {
-          setTodayTraining(newList.filter((list) => list.day === day));
+        };
+        listTrainings.addMember(id, newMember);
+        let newList = [...listTrainings.listTrainings];
+        if (day === "d1") {
+          setTodayTraining(newList.filter((item) => item.day === day));
         } else {
           setTomorrowTraining(newList.filter((list) => list.day === day));
         }
         window.alert("Uspešno ste zakazali trening! :)");
       } else {
-        window.alert("Sva mesta su popunjana");
+        window.alert("Vec ste zakazali trening u ovom terminu! :)");
       }
     } else {
-      window.alert("Vec ste zakazali trening u ovom terminu! :)");
+      window.alert("Sva mesta su popunjana");
     }
   };
 
@@ -86,19 +85,11 @@ const Trainings: React.FC = () => {
         ))}
       </div>
       <div>
-        {isToday ? (
-          <TrainingWrapper
-            title={"Danasnji treninzi"}
-            list={todayTrainingsList}
-            takeSpot={takeSpot}
-          />
-        ) : (
-          <TrainingWrapper
-            title={"Sutrasnji treninzi"}
-            list={tomorrowTrainingsList}
-            takeSpot={takeSpot}
-          />
-        )}
+        <TrainingWrapper
+          title={isToday ? "Danasnji treninzi" : "Sutrasnji treninzi"}
+          list={isToday ? todayTrainingsList : tomorrowTrainingsList}
+          takeSpot={takeSpot}
+        />
       </div>
     </div>
   );

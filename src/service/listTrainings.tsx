@@ -1,20 +1,39 @@
-import { Training } from '../types/training.model'
+import { Training } from "../types/training.model";
+import { Member } from "../types/member.model";
 
-export const listTrainings: Training[] = [
-    { id: 1, day: "d1", startHours: "09:00", freeSpace: 12, members: [] },
-    { id: 2, day: "d1", startHours: "10:00", freeSpace: 12, members: [] },
-    { id: 3, day: "d1", startHours: "11:00", freeSpace: 12, members: [] },
-    { id: 4, day: "d1", startHours: "15:00", freeSpace: 16, members: [] },
-    { id: 5, day: "d1", startHours: "16:00", freeSpace: 16, members: [] },
-    { id: 6, day: "d1", startHours: "17:00", freeSpace: 16, members: [] },
-    { id: 7, day: "d1", startHours: "18:00", freeSpace: 16, members: [] },
-    { id: 8, day: "d1", startHours: "19:00", freeSpace: 16, members: [] },
-    { id: 9, day: "d2", startHours: "09:00", freeSpace: 12, members: [] },
-    { id: 10, day: "d2", startHours: "10:00", freeSpace: 12, members: [] },
-    { id: 11, day: "d2", startHours: "11:00", freeSpace: 12, members: [] },
-    { id: 12, day: "d2", startHours: "15:00", freeSpace: 16, members: [] },
-    { id: 13, day: "d2", startHours: "16:00", freeSpace: 16, members: [] },
-    { id: 14, day: "d2", startHours: "17:00", freeSpace: 16, members: [] },
-    { id: 15, day: "d2", startHours: "18:00", freeSpace: 16, members: [] },
-    { id: 16, day: "d2", startHours: "19:00", freeSpace: 16, members: [] },
-  ];
+export class ListTrainings {
+  public listTrainings: Training[];
+
+  constructor(listTrainings: Training[]) {
+    this.listTrainings = listTrainings;
+  }
+
+  public addTraining(training: Training) {
+    this.listTrainings.push(training);
+  }
+
+  public removeTraining(trainingId: number) {
+    this.listTrainings = this.listTrainings.filter((item) => item.id !== trainingId);
+  }
+
+  public addMember(trainingId: number, member: Member) {
+    let foundIndex: number = this.listTrainings.findIndex(
+      (item) => item.id === trainingId
+    );
+    this.listTrainings[foundIndex].members.push(member);
+    this.listTrainings[foundIndex].freeSpace = --this.listTrainings[foundIndex]
+      .freeSpace;
+  }
+
+  public removeMember(trainingId: number, memberId: number) {
+    let foundIndex: number = this.listTrainings.findIndex(
+      (item) => item.id === trainingId
+    );
+
+    this.listTrainings[foundIndex].freeSpace = ++this.listTrainings[foundIndex]
+      .freeSpace;
+    this.listTrainings[foundIndex].members = this.listTrainings[
+      foundIndex
+    ].members.filter((member) => member.id !== memberId);
+  }
+}
