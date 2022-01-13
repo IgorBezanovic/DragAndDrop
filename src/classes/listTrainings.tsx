@@ -10,6 +10,7 @@ export class ListTrainings {
 
   public addTraining(training: Training) {
     this.listTrainings.push(training);
+    this.listTrainings = this.listTrainings.sort((a, b) => (a.day).localeCompare(b.day));
   }
 
   public removeTraining(trainingId: string) {

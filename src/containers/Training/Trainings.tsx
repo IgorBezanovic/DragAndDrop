@@ -59,7 +59,7 @@ const Trainings: React.FC = () => {
         listTrainings.addMember(id, newMember);
         let newList = [...listTrainings.listTrainings];
           if (day === "d1") {
-            setTodayTraining(newList.filter((item) => item.day === day));
+            setTodayTraining(newList.filter((item) => item.day === day).sort());
           } else {
             setTomorrowTraining(newList.filter((list) => list.day === day));
           }

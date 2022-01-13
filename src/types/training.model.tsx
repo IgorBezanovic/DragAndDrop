@@ -5,5 +5,6 @@ export type Training = {
     day: string;
     startHours: string;
     freeSpace: number;
+    extraTermin: boolean;
     members: Member[];
   };

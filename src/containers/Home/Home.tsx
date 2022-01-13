@@ -41,6 +41,7 @@ const Home: React.FC = () => {
         day: window.prompt("d1 ili d2?")!,
         startHours: window.prompt("U koliko sati pocinje tr?")!,
         freeSpace: +window.prompt("Koji je broj slobodnih mesta?")!,
+        extraTermin: true,
         members: [],
       }
     listTrainings.addTraining(noviTrening)
