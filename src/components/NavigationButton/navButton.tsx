@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const NavButton = ({ routeTo, icon }: { routeTo: string; icon: string }) => (

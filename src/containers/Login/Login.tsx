@@ -11,7 +11,6 @@ const Login = () :ReactElement => {
         password: ""
     });
 
-
     const updateForm = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Values) => {
         setForm({
             ...form,

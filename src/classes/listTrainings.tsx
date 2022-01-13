@@ -12,11 +12,11 @@ export class ListTrainings {
     this.listTrainings.push(training);
   }
 
-  public removeTraining(trainingId: number) {
+  public removeTraining(trainingId: string) {
     this.listTrainings = this.listTrainings.filter((item) => item.id !== trainingId);
   }
 
-  public addMember(trainingId: number, member: Member) {
+  public addMember(trainingId: string, member: Member) {
     let foundIndex: number = this.listTrainings.findIndex(
       (item) => item.id === trainingId
     );
@@ -25,7 +25,7 @@ export class ListTrainings {
       .freeSpace;
   }
 
-  public removeMember(trainingId: number, memberId: number) {
+  public removeMember(trainingId: string, memberId: string) {
     let foundIndex: number = this.listTrainings.findIndex(
       (item) => item.id === trainingId
     );

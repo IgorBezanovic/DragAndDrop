@@ -1,4 +1,3 @@
-import React from "react";
 import { Training } from "../../types/training.model";
 import SingleTraining from "./SingleTraining/singleTraining";
 
@@ -9,7 +8,7 @@ const TrainingWrapper = ({
 }: {
   title: string;
   list: Training[];
-  takeSpot: (id: number, day: string) => void;
+  takeSpot: (id: string, day: string) => void;
 }) => (
   <div className="content-training">
     <p className="content-title">{title}</p>

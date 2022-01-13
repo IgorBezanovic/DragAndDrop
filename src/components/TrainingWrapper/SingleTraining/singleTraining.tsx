@@ -1,4 +1,3 @@
-import React from "react";
 import { Training } from "../../../types/training.model";
 
 const SingleTraining = ({
@@ -6,7 +5,7 @@ const SingleTraining = ({
   takeSpot,
 }: {
   item: Training;
-  takeSpot: (id: number, day: string) => void;
+  takeSpot: (id: string, day: string) => void;
 }) => (
   <div className="single-training-wrapper" key={item.id}>
     <div className="single-training">

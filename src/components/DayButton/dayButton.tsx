@@ -1,4 +1,3 @@
-import React from "react";
 import { Days } from "../../types/days.model";
 
 const DayButton = ({

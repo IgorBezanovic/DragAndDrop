@@ -3,35 +3,32 @@ import listTrainings from "../../service/newList";
 import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
+import { Member } from "../../types/member.model";
+import { v4 as uuidv4 } from 'uuid';
 
 const Home: React.FC = () => {
   const name: string | null = localStorage.getItem("name");
   const role: string | null = localStorage.getItem("role");
   const [listMembers, setMembers] = useState<Training[]>(listTrainings.listTrainings);
 
-  const removeMember = (memberId: number, trainingId: number) => {
-    let foundIndex: number = listTrainings.listTrainings.findIndex(
-      (item) => item.id === trainingId
-    );
-
+  const removeMember = (memberId: string, trainingId: string) => {
+    listTrainings.removeMember(trainingId, memberId)
     let newList: Training[] = [...listTrainings.listTrainings];
-    newList[foundIndex].freeSpace = ++newList[foundIndex].freeSpace;
-    newList[foundIndex].members = newList[foundIndex].members.filter(
-      (member) => member.id !== memberId
-    );
     setMembers(newList);
   };
 
-  const addMember = (id: number) => {
-    let foundIndex: number = listTrainings.listTrainings.findIndex((item) => item.id === id);
-    let newList: Training[] = [...listTrainings.listTrainings];
-    if (newList[foundIndex].freeSpace) {
-      newList[foundIndex].freeSpace = --newList[foundIndex].freeSpace;
-      newList[foundIndex].members.push({
-        id: newList[foundIndex].members.length + 1,
+  const addMember = (id: string) => {
+    let freeSpaceIndex: number = listTrainings.listTrainings.findIndex(
+      (item) => item.id === id
+    );
+    if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
+      let newMember: Member = {
+        id: uuidv4(),
         name: window.prompt("Unesite ime klijenta?", "Probni"),
         lastName: window.prompt("Unesite prezime klijenta?", "trening"),
-      });
+      };
+      listTrainings.addMember(id, newMember)
+      let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
     } else {
       window.alert("Sva mesta su popunjena!");
@@ -40,7 +37,7 @@ const Home: React.FC = () => {
 
   const addTraining = () => {
     let noviTrening = {
-        id: +window.prompt("Unesite id, kao broj?")!,
+        id: uuidv4(),
         day: window.prompt("d1 ili d2?")!,
         startHours: window.prompt("U koliko sati pocinje tr?")!,
         freeSpace: +window.prompt("Koji je broj slobodnih mesta?")!,
@@ -51,7 +48,7 @@ const Home: React.FC = () => {
     setMembers(newList)
   };
 
-  const removeTraining = (id: number) => {
+  const removeTraining = (id: string) => {
     listTrainings.removeTraining(id);
     let newList: Training[] = [...listTrainings.listTrainings]
     setMembers(newList);

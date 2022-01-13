@@ -1,4 +1,3 @@
-import React from "react";
 import { Member } from "../../../types/member.model";
 
 const ListMembers = ({
@@ -7,8 +6,8 @@ const ListMembers = ({
   trainingId,
 }: {
   member: Member;
-  removeMember: (memberId: number, trainingId: number) => void;
-  trainingId: number;
+  removeMember: (memberId: string, trainingId: string) => void;
+  trainingId: string;
 }) => (
   <div>
     <p>

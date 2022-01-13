@@ -1,4 +1,3 @@
-import React from "react";
 import { Training } from "../../types/training.model";
 import ListMembers from "./ListMembers/listMembers";
 
@@ -9,9 +8,9 @@ const AllTrainings = ({
   removeMember,
 }: {
   training: Training;
-  addMember: (id: number) => void;
-  removeTraining: (id: number) => void;
-  removeMember: (memberId: number, trainingId: number) => void;
+  addMember: (id: string) => void;
+  removeTraining: (id: string) => void;
+  removeMember: (memberId: string, trainingId: string) => void;
 }) => (
   <div key={training.id}>
     {training.startHours}

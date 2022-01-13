@@ -1,5 +1,5 @@
 export type Member = {
-    id: number;
+    id: string;
     name: string | null;
     lastName: string | null;
   };
