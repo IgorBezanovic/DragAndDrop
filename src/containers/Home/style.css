@@ -29,4 +29,48 @@
 .training-info{
     border-bottom: 1px solid gray;
     padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    margin-bottom: 10px;
 }
+
+.training-info-buttons{
+    display: flex;
+    align-items: center;
+}
+.start-hours{
+    margin: 0 20px 0 10px;
+}
+.training-button{
+    font-size: 12px !important;
+    width: 100px !important;
+    box-shadow: -2px -2px 10px white, 2px 2px 10px #BABECC !important;
+    margin: 5px;
+}
+.single-member{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 20px;
+    border-radius: 10px;
+    box-shadow: -2px -2px 10px white, 2px 2px 10px #BABECC !important;
+    margin: 10px 0;
+}
+
+.green{
+    color: green !important;
+}
+@media only screen and (max-width: 360px) {
+    .add-training {
+        width: 100% !important;
+    }
+    .training-info-buttons{
+        flex-direction: column;
+    }
+    .start-hours{
+        text-align: center;
+    }
+    .single-member{
+        flex-direction: column;
+    }
+  }

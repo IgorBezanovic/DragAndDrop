@@ -9,11 +9,11 @@ const ListMembers = ({
   removeMember: (memberId: string, trainingId: string) => void;
   trainingId: string;
 }) => (
-  <div>
+  <div className="single-member">
     <p>
       {member.name} {member.lastName}
     </p>
-    <button onClick={() => removeMember(member.id, trainingId)}>
+    <button className="submit training-button" onClick={() => removeMember(member.id, trainingId)}>
       Remove Member
     </button>
   </div>

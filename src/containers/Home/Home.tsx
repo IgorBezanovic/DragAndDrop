@@ -5,11 +5,19 @@ import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
 import { Member } from "../../types/member.model";
 import { v4 as uuidv4 } from 'uuid';
+import Popup from "../../common//popup/popup";
 
 const Home: React.FC = () => {
   const name: string | null = localStorage.getItem("name");
   const role: string | null = localStorage.getItem("role");
   const [listMembers, setMembers] = useState<Training[]>(listTrainings.listTrainings);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [popupTitle, setTitle] = useState<string>("");
+  const [popupContent, setContent] = useState<string>("");
+  
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
   const removeMember = (memberId: string, trainingId: string) => {
     listTrainings.removeMember(trainingId, memberId)
@@ -34,8 +42,11 @@ const Home: React.FC = () => {
       window.alert("Sva mesta su popunjena!");
     }
   };
-
+  
   const addTraining = () => {
+    // togglePopup();
+    // setTitle("Dodavanje treninga");
+    // setContent("Caooo")
     let noviTrening = {
         id: uuidv4(),
         day: window.prompt("d1 ili d2?")!,
@@ -61,7 +72,7 @@ const Home: React.FC = () => {
 
       {role === "admin" ? (
         <div className="wrapper-content">
-            <button className="submit add-training" onClick={() => addTraining()} style={{ margin: "10px 0" }}>
+            <button className="submit add-training green" onClick={() => addTraining()} style={{ margin: "10px 0" }}>
               Add Training
             </button>
             {listMembers.map((training) => (
@@ -73,6 +84,13 @@ const Home: React.FC = () => {
               removeMember={removeMember}
               />
             ))}
+            {isOpen && (
+              <Popup
+                title={popupTitle}
+                content={popupContent}
+                handleClose={togglePopup}
+              />
+            )}
         </div>
       ) : (
         <div>

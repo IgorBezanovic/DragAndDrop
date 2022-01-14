@@ -6,7 +6,7 @@ const Popup = ({
   handleClose,
 }: {
   title: string;
-  content: string;
+  content: string | {};
   handleClose: () => void;
 }) => {
   return (

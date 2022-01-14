@@ -13,18 +13,23 @@ const AllTrainings = ({
   removeMember: (memberId: string, trainingId: string) => void;
 }) => (
   <div key={training.id} className="training-info">
-    {training.extraTermin ? "Dodatan termin: " : ""}
-    {training.startHours}
-    <button onClick={() => addMember(training.id)}>Add Member</button>
-    <button onClick={() => removeTraining(training.id)}>Remove training</button>
-    {training.members.map((member) => (
-      <ListMembers
-        key={member.id}
-        member={member}
-        trainingId={training.id}
-        removeMember={removeMember}
-      />
-    ))}
+    <div className="training-info-buttons">
+      <p className="start-hours">{training.extraTermin ? 
+      ` ${(training.day=== 'd1') ? "Today" : "Tomorrow"} extra appointment: ${training.startHours}` : `${(training.day=== 'd1') ? "Today" : "Tomorrow"} in ${training.startHours} `
+      }</p>
+      <button  className="submit training-button green" onClick={() => addMember(training.id)}>Add Member</button>
+      <button  className="submit training-button" onClick={() => removeTraining(training.id)}>Remove training</button>
+    </div>
+    <div>
+      {training.members.map((member) => (
+        <ListMembers
+          key={member.id}
+          member={member}
+          trainingId={training.id}
+          removeMember={removeMember}
+        />
+      ))}
+    </div>
   </div>
 );
 
