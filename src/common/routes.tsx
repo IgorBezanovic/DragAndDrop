@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Trainings from "../containers/Training/Trainings";
 import Home from "../containers/Home/Home";
 import Account from "../containers/Account/Account";
-// import Info from "../containers/Info/Info";
+import Info from "../containers/Info/Info";
 import dumbbellIcon from "../assets/icons/dumbbell.png";
 import homeIcon from "../assets/icons/home.png";
 import userIcon from "../assets/icons/user.png";
@@ -27,7 +27,7 @@ const Routes = () => {
       </header>
 
       <Switch>
-          {/* <Route exact path="/" component={Info} /> */}
+          <Route exact path="/" component={Info} />
           <Route exact path="/home" component={Home} />
           <Route exact path="/training" component={Trainings} />
           <Route exact path="/account" component={Account} />
