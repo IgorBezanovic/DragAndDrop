@@ -1,6 +1,32 @@
-.wrapper{
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+.wrapper-home {
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+    width: 100%;
+    padding: 20px 0;
+}
+.wrapper-content {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: -2px -2px 5px white, 2px 2px 5px #BABECC;
+    border-radius: 25px;
+    margin-top: 20px;
+    padding: 20px;
+}
+.welcome-title {
+    font-family: 'Lobster', cursive !important;
+}
+.add-training {
+    width: 200px !important;
+}
+
+.training-info{
+    border-bottom: 1px solid gray;
+    padding: 10px;
 }

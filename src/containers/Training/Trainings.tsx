@@ -5,11 +5,17 @@ import { listDays } from "../../service/listDays";
 import listTrainings from "../../service/newList";
 import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import Popup from "../../common//popup/popup";
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState<boolean>(true);
   const [isTomorrow, setTomorrow] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [popupTitle, setTitle] = useState<string>("");
+  const [popupContent, setContent] = useState<string>("");
+  const todayTrainingButton: string = "Danasnji treninzi"
+  const tomorrowTrainingButton: string = "Sutrasnji treninzi"
 
   let todayTrainings: Training[] = listTrainings.listTrainings.filter(
     (item) => item.day !== "d2"
@@ -23,6 +29,10 @@ const Trainings: React.FC = () => {
     useState<Training[]>(todayTrainings);
   const [tomorrowTrainingsList, setTomorrowTraining] =
     useState<Training[]>(tomorrowTrainings);
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleToday = () => {
     setToday(true);
@@ -58,17 +68,23 @@ const Trainings: React.FC = () => {
         };
         listTrainings.addMember(id, newMember);
         let newList = [...listTrainings.listTrainings];
-          if (day === "d1") {
-            setTodayTraining(newList.filter((item) => item.day === day).sort());
-          } else {
-            setTomorrowTraining(newList.filter((list) => list.day === day));
-          }
-        window.alert("Uspešno ste zakazali trening! :)");
+        if (day === "d1") {
+          setTodayTraining(newList.filter((item) => item.day === day));
+        } else {
+          setTomorrowTraining(newList.filter((list) => list.day === day));
+        }
+        togglePopup();
+        setTitle("Zakazivanje treninga");
+        setContent("Uspešno ste zakazali trening! :)");
       } else {
-        window.alert("Vec ste zakazali trening u ovom terminu! :)");
+        togglePopup();
+        setTitle("Zakazivanje treninga");
+        setContent("Vec ste zakazali trening u ovom terminu :)");
       }
     } else {
-      window.alert("Sva mesta su popunjana");
+      togglePopup();
+      setTitle("Zakazivanje treninga");
+      setContent("Sva mesta su popunjana, odaberite neki drugi termin koji Vam odgovara");
     }
   };
 
@@ -88,11 +104,18 @@ const Trainings: React.FC = () => {
       </div>
       <div>
         <TrainingWrapper
-          title={isToday ? "Danasnji treninzi" : "Sutrasnji treninzi"}
+          title={isToday ? todayTrainingButton : tomorrowTrainingButton}
           list={isToday ? todayTrainingsList : tomorrowTrainingsList}
           takeSpot={takeSpot}
         />
       </div>
+      {isOpen && (
+        <Popup
+          title={popupTitle}
+          content={popupContent}
+          handleClose={togglePopup}
+        />
+      )}
     </div>
   );
 };

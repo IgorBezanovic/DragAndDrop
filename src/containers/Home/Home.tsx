@@ -57,22 +57,22 @@ const Home: React.FC = () => {
 
   return (
     <div className="wrapper-home">
-      <h2>Welcome, {name}</h2>
+      <h1 className="welcome-title">Welcome, {name}</h1>
 
       {role === "admin" ? (
-        <div>
-          <button onClick={() => addTraining()} style={{ margin: "10px 0" }}>
-            Add Training
-          </button>
-          {listMembers.map((training) => (
-            <AllTrainings
+        <div className="wrapper-content">
+            <button className="submit add-training" onClick={() => addTraining()} style={{ margin: "10px 0" }}>
+              Add Training
+            </button>
+            {listMembers.map((training) => (
+              <AllTrainings
               key={training.id}
               training={training}
               removeTraining={removeTraining}
               addMember={addMember}
               removeMember={removeMember}
-            />
-          ))}
+              />
+            ))}
         </div>
       ) : (
         <div>

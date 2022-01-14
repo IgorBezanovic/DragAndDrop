@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Values } from "../../types/values.model"
 import { users } from "../../service/listUsers"
 import './style.css'
+import Popup from "../../common//popup/popup";
 
 const Login = () :ReactElement => {
     let history = useHistory();
@@ -10,6 +11,13 @@ const Login = () :ReactElement => {
         username: "",
         password: ""
     });
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [popupTitle, setTitle] = useState<string>("");
+    const [popupContent, setContent] = useState<string>("");
+
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
 
     const updateForm = (e: React.ChangeEvent<HTMLInputElement>, field: keyof Values) => {
         setForm({
@@ -30,6 +38,10 @@ const Login = () :ReactElement => {
             localStorage.setItem('lastName', user.password);
             localStorage.setItem('role', user.role);
             history.push('/home');
+        } else {
+            togglePopup()
+            setTitle("Loging in")
+            setContent("Ne postoji korisnik sa unetim kredencijalima. Proverite da li ste tacno uneli svoje podatke. Ukoliko jeste, kontaktiraje nas trening centar na 06x/ xxx - xx -xx")
         }
     }
 
@@ -61,6 +73,13 @@ const Login = () :ReactElement => {
                     </div>
                 </form>
             </div>
+            {isOpen && (
+                <Popup
+                title={popupTitle}
+                content={popupContent}
+                handleClose={togglePopup}
+                />
+            )}
         </div>
     );
 }

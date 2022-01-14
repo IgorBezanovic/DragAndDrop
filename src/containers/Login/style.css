@@ -54,7 +54,7 @@ input:focus {
 
 .submit{
     width: 100%;
-    box-shadow: -5px -5px 20px white,  5px 5px 20px #BABECC;
+    box-shadow: -5px -5px 20px white, 5px 5px 20px #BABECC;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     font-weight: 600;

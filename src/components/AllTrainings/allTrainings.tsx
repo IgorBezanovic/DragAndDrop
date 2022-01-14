@@ -12,7 +12,8 @@ const AllTrainings = ({
   removeTraining: (id: string) => void;
   removeMember: (memberId: string, trainingId: string) => void;
 }) => (
-  <div key={training.id}>
+  <div key={training.id} className="training-info">
+    {training.extraTermin ? "Dodatan termin: " : ""}
     {training.startHours}
     <button onClick={() => addMember(training.id)}>Add Member</button>
     <button onClick={() => removeTraining(training.id)}>Remove training</button>
