@@ -14,7 +14,6 @@ const Popup = ({
       <div className="popup-content">
         <h4>{title}</h4>
         <p>{content}</p>
-
         <button onClick={handleClose} className="submit close">Close</button>
       </div>
     </div>

@@ -19,6 +19,13 @@ const Login = (): ReactElement => {
     setIsOpen(!isOpen);
   };
 
+  const popupLogic = (title: string, content: string) => {
+    togglePopup();
+    setTitle(title);
+    setContent(content);
+    setTimeout(() => setIsOpen(false), 3000);
+  };
+
   const updateForm = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: keyof Values
@@ -43,11 +50,7 @@ const Login = (): ReactElement => {
       window.location.reload()
       history.push("/home");
     } else {
-      togglePopup();
-      setTitle("Loging in");
-      setContent(
-        "Ne postoji korisnik sa unetim kredencijalima. Proverite da li ste tacno uneli svoje podatke. Ukoliko jeste, kontaktiraje nas trening centar na 06x/ xxx - xx -xx"
-      );
+      popupLogic("Loging in", "Ne postoji korisnik sa unetim kredencijalima. Proverite da li ste tacno uneli svoje podatke. Ukoliko jeste, kontaktiraje nas trening centar na 06x/ xxx - xx -xx")
     }
   };
 

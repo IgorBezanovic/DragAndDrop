@@ -29,10 +29,16 @@ const Trainings: React.FC = () => {
     useState<Training[]>(todayTrainings);
   const [tomorrowTrainingsList, setTomorrowTraining] =
     useState<Training[]>(tomorrowTrainings);
-
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
+
+  const popupLogic = (title: string, content: string) => {
+    togglePopup();
+    setTitle(title);
+    setContent(content);
+    setTimeout(() => setIsOpen(false), 3000)
+  }
 
   const handleToday = () => {
     setToday(true);
@@ -73,18 +79,12 @@ const Trainings: React.FC = () => {
         } else {
           setTomorrowTraining(newList.filter((list) => list.day === day));
         }
-        togglePopup();
-        setTitle("Zakazivanje treninga");
-        setContent("Uspešno ste zakazali trening! :)");
+        popupLogic("Zakazivanje treninga", "Uspešno ste zakazali trening! :)")
       } else {
-        togglePopup();
-        setTitle("Zakazivanje treninga");
-        setContent("Vec ste zakazali trening u ovom terminu :)");
+        popupLogic("Zakazivanje treninga", "Vec ste zakazali trening u ovom terminu :)")
       }
     } else {
-      togglePopup();
-      setTitle("Zakazivanje treninga");
-      setContent("Sva mesta su popunjana, odaberite neki drugi termin koji Vam odgovara");
+      popupLogic("Zakazivanje treninga", "Sva mesta su popunjana, odaberite neki drugi termin koji Vam odgovara.")
     }
   };
 

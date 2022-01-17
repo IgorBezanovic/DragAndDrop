@@ -4,7 +4,7 @@ let listTrainings: ListTrainings = new ListTrainings([
   { id: '1', day: "d1", startHours: "09:00", freeSpace: 4, extraTermin: false, members: [] },
   { id: '2', day: "d1", startHours: "10:00", freeSpace: 12, extraTermin: false, members: [] },
   { id: '3', day: "d1", startHours: "11:00", freeSpace: 12, extraTermin: false, members: [] },
-  { id: '4', day: "d1", startHours: "15:00", freeSpace: 16, extraTermin: false, members: [] },
+  { id: '4', day: "d1", startHours: "15:00", freeSpace: 0, extraTermin: false, members: [] },
   { id: '5', day: "d1", startHours: "16:00", freeSpace: 16, extraTermin: false, members: [] },
   { id: '6', day: "d1", startHours: "17:00", freeSpace: 16, extraTermin: false, members: [] },
   { id: '7', day: "d1", startHours: "18:00", freeSpace: 16, extraTermin: false, members: [] },

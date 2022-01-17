@@ -4,25 +4,35 @@ import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
 import { Member } from "../../types/member.model";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common//popup/popup";
 
 const Home: React.FC = () => {
   const name: string | null = localStorage.getItem("name");
   const role: string | null = localStorage.getItem("role");
-  const [listMembers, setMembers] = useState<Training[]>(listTrainings.listTrainings);
+  const [listMembers, setMembers] = useState<Training[]>(
+    listTrainings.listTrainings
+  );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
-  
+
   const togglePopup = () => {
     setIsOpen(!isOpen);
   };
 
+  const popupLogic = (title: string, content: string) => {
+    togglePopup();
+    setTitle(title);
+    setContent(content);
+    setTimeout(() => setIsOpen(false), 3000);
+  };
+
   const removeMember = (memberId: string, trainingId: string) => {
-    listTrainings.removeMember(trainingId, memberId)
+    listTrainings.removeMember(trainingId, memberId);
     let newList: Training[] = [...listTrainings.listTrainings];
     setMembers(newList);
+    popupLogic("Brisanje sa liste clanova", "Clan je uspesno obrisan.");
   };
 
   const addMember = (id: string) => {
@@ -35,35 +45,33 @@ const Home: React.FC = () => {
         name: window.prompt("Unesite ime klijenta?", "Probni"),
         lastName: window.prompt("Unesite prezime klijenta?", "trening"),
       };
-      listTrainings.addMember(id, newMember)
+      listTrainings.addMember(id, newMember);
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
     } else {
       window.alert("Sva mesta su popunjena!");
     }
   };
-  
+
   const addTraining = () => {
-    // togglePopup();
-    // setTitle("Dodavanje treninga");
-    // setContent("Caooo")
     let noviTrening = {
-        id: uuidv4(),
-        day: window.prompt("d1 ili d2?")!,
-        startHours: window.prompt("U koliko sati pocinje tr?")!,
-        freeSpace: +window.prompt("Koji je broj slobodnih mesta?")!,
-        extraTermin: true,
-        members: [],
-      }
-    listTrainings.addTraining(noviTrening)
-    let newList: Training[] = [...listTrainings.listTrainings]
-    setMembers(newList)
+      id: uuidv4(),
+      day: window.prompt("d1 ili d2?")!,
+      startHours: window.prompt("U koliko sati pocinje tr?")!,
+      freeSpace: +window.prompt("Koji je broj slobodnih mesta?")!,
+      extraTermin: true,
+      members: [],
+    };
+    listTrainings.addTraining(noviTrening);
+    let newList: Training[] = [...listTrainings.listTrainings];
+    setMembers(newList);
   };
 
   const removeTraining = (id: string) => {
     listTrainings.removeTraining(id);
-    let newList: Training[] = [...listTrainings.listTrainings]
+    let newList: Training[] = [...listTrainings.listTrainings];
     setMembers(newList);
+    popupLogic("Brisanje dnevnog treninga", "Trening je uspesno obrisan.");
   };
 
   return (
@@ -72,25 +80,29 @@ const Home: React.FC = () => {
 
       {role === "admin" ? (
         <div className="wrapper-content">
-            <button className="submit add-training green" onClick={() => addTraining()} style={{ margin: "10px 0" }}>
-              Add Training
-            </button>
-            {listMembers.map((training) => (
-              <AllTrainings
+          <button
+            className="submit add-training green"
+            onClick={() => addTraining()}
+            style={{ margin: "10px 0" }}
+          >
+            Add Training
+          </button>
+          {listMembers.map((training) => (
+            <AllTrainings
               key={training.id}
               training={training}
               removeTraining={removeTraining}
               addMember={addMember}
               removeMember={removeMember}
-              />
-            ))}
-            {isOpen && (
-              <Popup
-                title={popupTitle}
-                content={popupContent}
-                handleClose={togglePopup}
-              />
-            )}
+            />
+          ))}
+          {isOpen && (
+            <Popup
+              title={popupTitle}
+              content={popupContent}
+              handleClose={togglePopup}
+            />
+          )}
         </div>
       ) : (
         <div>
