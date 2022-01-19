@@ -28,7 +28,7 @@
     margin-bottom: 15px;
     color: #635f5f;
 }
-input, .submit {
+.form-input, .submit {
     border: 0;
     outline: 0;
     font-size: 14px;
@@ -38,7 +38,7 @@ input, .submit {
     text-shadow: 1px 1px 0 white;
 }
 
-input {
+.form-input {
     margin-bottom: 30px;
     box-shadow:  inset 2px 2px 5px #BABECC, inset -5px -5px 10px white;
     width: 100%;
@@ -48,7 +48,7 @@ input {
     -webkit-appearance: none;
 }
 
-input:focus {
+.form-input:focus {
     box-shadow:  inset 1px 1px 2px #BABECC, inset -1px -1px 2px white;
 }
 

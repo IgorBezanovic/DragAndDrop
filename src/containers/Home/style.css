@@ -1,76 +1,95 @@
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 
 .wrapper-home {
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    width: 100%;
-    padding: 20px 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px 0;
 }
 .wrapper-content {
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px 0;
-    background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: -2px -2px 5px white, 2px 2px 5px #BABECC;
-    border-radius: 25px;
-    margin-top: 20px;
-    padding: 20px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 20px 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: -2px -2px 5px white, 2px 2px 5px #babecc;
+  border-radius: 25px;
+  margin-top: 20px;
+  padding: 20px;
 }
 .welcome-title {
-    font-family: 'Lobster', cursive !important;
+  font-family: "Lobster", cursive !important;
 }
 .add-training {
-    width: 200px !important;
+  width: 200px !important;
 }
 
-.training-info{
-    border-bottom: 1px solid gray;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: white;
-    margin-bottom: 10px;
+.training-info {
+  border-bottom: 1px solid gray;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  margin-bottom: 10px;
 }
 
-.training-info-buttons{
+.training-info-buttons {
+  display: flex;
+  align-items: center;
+}
+.start-hours {
+  margin: 0 20px 0 10px;
+}
+.training-button {
+  font-size: 12px !important;
+  width: 100px !important;
+  box-shadow: -2px -2px 10px white, 2px 2px 10px #babecc !important;
+  margin: 5px;
+}
+.single-member {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px;
+  border-radius: 10px;
+  box-shadow: -2px -2px 10px white, 2px 2px 10px #babecc !important;
+  margin: 10px 0;
+}
+
+.green {
+  color: green !important;
+}
+
+.css-1x51dt5-MuiInputBase-input-MuiInput-input {
+  padding: 4px 10px 5px !important;
+}
+.css-1x51dt5-MuiInputBase-input-MuiInput-input::placeholder {
+  padding-left: 20px !important;
+}
+
+.radio-label {
     display: flex;
     align-items: center;
+    margin-top: 10px;
 }
-.start-hours{
-    margin: 0 20px 0 10px;
-}
-.training-button{
-    font-size: 12px !important;
-    width: 100px !important;
-    box-shadow: -2px -2px 10px white, 2px 2px 10px #BABECC !important;
-    margin: 5px;
-}
-.single-member{
+.radio-button {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 5px 20px;
-    border-radius: 10px;
-    box-shadow: -2px -2px 10px white, 2px 2px 10px #BABECC !important;
-    margin: 10px 0;
-}
-
-.green{
-    color: green !important;
+    justify-content: center;
+    margin-left: 10px;
 }
 @media only screen and (max-width: 360px) {
-    .add-training {
-        width: 100% !important;
-    }
-    .training-info-buttons{
-        flex-direction: column;
-    }
-    .start-hours{
-        text-align: center;
-    }
-    .single-member{
-        flex-direction: column;
-    }
+  .add-training {
+    width: 100% !important;
   }
+  .training-info-buttons {
+    flex-direction: column;
+  }
+  .start-hours {
+    text-align: center;
+  }
+  .single-member {
+    flex-direction: column;
+  }
+}

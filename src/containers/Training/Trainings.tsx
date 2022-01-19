@@ -6,7 +6,7 @@ import listTrainings from "../../service/newList";
 import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
 import { v4 as uuidv4 } from "uuid";
-import Popup from "../../common//popup/popup";
+import Popup from "../../common/Popup/popup";
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState<boolean>(true);

@@ -3,19 +3,50 @@ import listTrainings from "../../service/newList";
 import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
-import { Member } from "../../types/member.model";
 import { v4 as uuidv4 } from "uuid";
-import Popup from "../../common//popup/popup";
+import Popup from "../../common/Popup/popup";
+import Dialog from "../../common/Dialog/dialog"
+import TextField from "@mui/material/TextField";
+import { Member } from "../../types/member.model";
 
 const Home: React.FC = () => {
   const name: string | null = localStorage.getItem("name");
   const role: string | null = localStorage.getItem("role");
+
   const [listMembers, setMembers] = useState<Training[]>(
     listTrainings.listTrainings
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
+  const [open, setOpen] = React.useState(false);
+
+  let [newTraining, setValue] = useState<Training>({
+    id: "",
+    day: "",
+    startHours: "",
+    freeSpace: 0,
+    extraTermin: true,
+    members: [],
+  });
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    field: keyof Training
+  ) => {
+    setValue({
+      ...newTraining,
+      [field]: e.target.value,
+    });
+  };
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -48,23 +79,28 @@ const Home: React.FC = () => {
       listTrainings.addMember(id, newMember);
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
+      popupLogic("Zakazivanje treninga", "Klijent je uspesno dodat!");
     } else {
-      window.alert("Sva mesta su popunjena!");
+      popupLogic("Zakazivanje treninga", "Sva mesta su popunjena!");
     }
   };
 
   const addTraining = () => {
-    let noviTrening = {
-      id: uuidv4(),
-      day: window.prompt("d1 ili d2?")!,
-      startHours: window.prompt("U koliko sati pocinje tr?")!,
-      freeSpace: +window.prompt("Koji je broj slobodnih mesta?")!,
-      extraTermin: true,
-      members: [],
-    };
-    listTrainings.addTraining(noviTrening);
-    let newList: Training[] = [...listTrainings.listTrainings];
-    setMembers(newList);
+    if (
+      newTraining.day !== "" &&
+      newTraining.startHours !== "" &&
+      newTraining.freeSpace !== 0 
+    ) {
+      newTraining.id = uuidv4();
+      listTrainings.addTraining(newTraining);
+      let newList: Training[] = [...listTrainings.listTrainings];
+      setMembers(newList);
+      handleClose();
+      popupLogic("Dodavanje treninga", "Trening je uspesno dodat.");
+    } else {
+      handleClose();
+      popupLogic("Morate popuniti sva polja", "Sva polja moraju biti popunjena kako bi se trening uspesno dodao.");
+    }
   };
 
   const removeTraining = (id: string) => {
@@ -82,7 +118,7 @@ const Home: React.FC = () => {
         <div className="wrapper-content">
           <button
             className="submit add-training green"
-            onClick={() => addTraining()}
+            onClick={() => handleClickOpen()}
             style={{ margin: "10px 0" }}
           >
             Add Training
@@ -103,6 +139,54 @@ const Home: React.FC = () => {
               handleClose={togglePopup}
             />
           )}
+          <Dialog
+            title={"Dodavanje treninga"}
+            content={"Unesite trazene informacije: "}
+            handleClose={handleClose}
+            open={open}
+            addFunction={addTraining}
+          >
+            <label className="radio-label">
+                Today
+                  <input
+                    type="radio"
+                    value='d1'
+                    className="radio-button"
+                    onChange={(e) => handleChange(e, "day")}
+                    checked={newTraining.day === 'd1'}
+                  />
+              </label>
+              <label className="radio-label">
+                Tomorrow
+                  <input
+                    type="radio"
+                    value='d2'
+                    className="radio-button"
+                    onChange={(e) => handleChange(e, "day")}
+                    checked={newTraining.day === 'd2'}
+                  />
+              </label>
+              <TextField
+                margin="dense"
+                id="startHours"
+                label="Enter the start time?"
+                type="text"
+                fullWidth
+                variant="standard"
+                onChange={(e) => handleChange(e, "startHours")}
+                value={newTraining.startHours}
+              />
+              <TextField
+                margin="dense"
+                id="freeSpace"
+                label="Enter the number of free space ?"
+                type="number"
+                fullWidth
+                variant="standard"
+                onChange={(e) => handleChange(e, "freeSpace")}
+                value={newTraining.freeSpace}
+              />
+          </Dialog>
         </div>
       ) : (
         <div>

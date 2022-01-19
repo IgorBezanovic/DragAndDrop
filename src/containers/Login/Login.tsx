@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Values } from "../../types/values.model";
 import { users } from "../../service/listUsers";
 import "./style.css";
-import Popup from "../../common//popup/popup";
+import Popup from "../../common/Popup/popup";
 
 const Login = (): ReactElement => {
   let history = useHistory();
@@ -64,6 +64,7 @@ const Login = (): ReactElement => {
             <input
               type="text"
               name="username"
+              className="form-input"
               onChange={(e) => updateForm(e, "username")}
               value={form.username}
             />
@@ -73,6 +74,7 @@ const Login = (): ReactElement => {
             <input
               type="password"
               name="password"
+              className="form-input"
               onChange={(e) => updateForm(e, "password")}
               value={form.password}
             />
