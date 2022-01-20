@@ -7,6 +7,7 @@ import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
 import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common/Popup/popup";
+import { User } from "../../types/user.model";
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState<boolean>(true);
@@ -56,8 +57,8 @@ const Trainings: React.FC = () => {
         training.id === id &&
         training.members.find(
           (member) =>
-            member.name === localStorage.getItem("name") &&
-            member.lastName === localStorage.getItem("lastName")
+            member.username === localStorage.getItem("name") &&
+            member.password === localStorage.getItem("lastName")
         )
     );
 
@@ -67,10 +68,12 @@ const Trainings: React.FC = () => {
 
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       if (!alreadyReserved.length) {
-        let newMember = {
+        let newMember: User = {
           id: uuidv4(),
-          name: localStorage.getItem("name"),
-          lastName: localStorage.getItem("lastName"),
+          username: localStorage.getItem("name")!,
+          password: localStorage.getItem("lastName")!,
+          role: localStorage.getItem('role')!,
+          numTrainings: +localStorage.getItem('numTrainings')!,
         };
         listTrainings.addMember(id, newMember);
         let newList = [...listTrainings.listTrainings];

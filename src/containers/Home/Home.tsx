@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import listTrainings from "../../service/listTrenings";
+import listUsers  from "../../service/listUsers";
 import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
@@ -7,11 +8,12 @@ import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common/Popup/popup";
 import Dialog from "../../common/Dialog/dialog"
 import TextField from "@mui/material/TextField";
-import { Member } from "../../types/member.model";
+import { User } from "../../types/user.model";
 
 const Home: React.FC = () => {
-  const name: string | null = localStorage.getItem("name");
-  const role: string | null = localStorage.getItem("role");
+  const currentId: string | null = localStorage.getItem("id");
+  const [userList, setUser] = useState<User[]>(listUsers.listUsers);
+  let user: User | undefined = userList.find((item) => item.id === currentId);
 
   const [listMembers, setMembers] = useState<Training[]>(
     listTrainings.listTrainings
@@ -71,12 +73,14 @@ const Home: React.FC = () => {
       (item) => item.id === id
     );
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
-      let newMember: Member = {
+      let newUser: User = {
         id: uuidv4(),
-        name: window.prompt("Unesite ime klijenta?", "Probni"),
-        lastName: window.prompt("Unesite prezime klijenta?", "trening"),
+        username: window.prompt("Unesite ime klijenta?", "Probni")!,
+        password: window.prompt("Unesite prezime klijenta?", "trening")!,
+        role: "member",
+        numTrainings: 1
       };
-      listTrainings.addMember(id, newMember);
+      listTrainings.addMember(id, newUser);
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
       popupLogic("Zakazivanje treninga", "Klijent je uspesno dodat!");
@@ -112,9 +116,9 @@ const Home: React.FC = () => {
 
   return (
     <div className="wrapper-home">
-      <h1 className="welcome-title">Welcome, {name}</h1>
+      <h1 className="welcome-title">Welcome, {user?.username}</h1>
 
-      {role === "admin" ? (
+      {user?.role === "admin" ? (
         <div className="wrapper-content">
           <button
             className="submit add-training green"

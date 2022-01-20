@@ -1,4 +1,4 @@
-import { Member } from './member.model'
+import { User } from './user.model'
 
 export type Training = {
     id: string;
@@ -6,5 +6,5 @@ export type Training = {
     startHours: string;
     freeSpace: number;
     extraTermin: boolean;
-    members: Member[];
+    members: User[];
   };

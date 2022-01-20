@@ -1,5 +1,5 @@
 import { Training } from "../types/training.model";
-import { Member } from "../types/member.model";
+import { User } from "../types/user.model";
 
 export class ListTrainings {
   public listTrainings: Training[];
@@ -17,11 +17,11 @@ export class ListTrainings {
     this.listTrainings = this.listTrainings.filter((item) => item.id !== trainingId);
   }
 
-  public addMember(trainingId: string, member: Member) {
+  public addMember(trainingId: string, user: User) {
     let foundIndex: number = this.listTrainings.findIndex(
       (item) => item.id === trainingId
     );
-    this.listTrainings[foundIndex].members.push(member);
+    this.listTrainings[foundIndex].members.push(user);
     this.listTrainings[foundIndex].freeSpace = --this.listTrainings[foundIndex]
       .freeSpace;
   }
