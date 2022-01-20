@@ -12,7 +12,7 @@ import { User } from "../../types/user.model";
 
 const Home: React.FC = () => {
   const currentId: string | null = localStorage.getItem("id");
-  const [userList, setUser] = useState<User[]>(listUsers.listUsers);
+  const userList = listUsers.listUsers;
   let user: User | undefined = userList.find((item) => item.id === currentId);
 
   const [listMembers, setMembers] = useState<Training[]>(
