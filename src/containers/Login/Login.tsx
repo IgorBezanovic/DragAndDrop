@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Values } from "../../types/values.model";
-import { users } from "../../service/listUsers";
+import listUsers from "../../service/listUsers";
 import "./style.css";
 import Popup from "../../common/Popup/popup";
 
@@ -14,6 +14,7 @@ const Login = (): ReactElement => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
+  let userList = listUsers.listUsers;
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -39,7 +40,7 @@ const Login = (): ReactElement => {
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let user = users.find(
+    let user = userList.find(
       (e) => e.username === form.username && e.password === form.password
     );
 

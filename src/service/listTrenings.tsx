@@ -1,4 +1,4 @@
-import { ListTrainings } from "../classes/listTrainings";
+import { ListTrainings } from "../classes/Trainings";
 
 let listTrainings: ListTrainings = new ListTrainings([
   { id: '1', day: "d1", startHours: "09:00", freeSpace: 4, extraTermin: false, members: [] },

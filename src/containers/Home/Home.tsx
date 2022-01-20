@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import listTrainings from "../../service/newList";
+import listTrainings from "../../service/listTrenings";
 import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";

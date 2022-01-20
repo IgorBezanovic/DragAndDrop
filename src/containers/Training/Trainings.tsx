@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import { Training } from "../../types/training.model";
 import { listDays } from "../../service/listDays";
-import listTrainings from "../../service/newList";
+import listTrainings from "../../service/listTrenings";
 import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
 import { v4 as uuidv4 } from "uuid";
