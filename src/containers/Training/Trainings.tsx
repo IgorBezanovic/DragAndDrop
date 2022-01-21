@@ -7,6 +7,7 @@ import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
 import Popup from "../../common/Popup/popup";
 import { User } from "../../types/user.model";
+import listUsers from "../../service/listUsers";
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState<boolean>(true);
@@ -16,6 +17,9 @@ const Trainings: React.FC = () => {
   const [popupContent, setContent] = useState<string>("");
   const todayTrainingButton: string = "Danasnji treninzi";
   const tomorrowTrainingButton: string = "Sutrasnji treninzi";
+  const currentId: string | null = localStorage.getItem("id");
+  const userList = listUsers.listUsers;
+  let user: User | undefined = userList.find((item) => item.id === currentId);
 
   let todayTrainings: Training[] = listTrainings.listTrainings.filter(
     (item) => item.day !== "d2"
@@ -54,11 +58,7 @@ const Trainings: React.FC = () => {
     let alreadyReserved = listTrainings.listTrainings.filter(
       (training) =>
         training.id === id &&
-        training.members.find(
-          (member) =>
-            member.username === localStorage.getItem("name") &&
-            member.password === localStorage.getItem("lastName")
-        )
+        training.members.find((member) => member.id === user?.id)
     );
 
     let freeSpaceIndex = listTrainings.listTrainings.findIndex(
@@ -67,15 +67,8 @@ const Trainings: React.FC = () => {
 
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       if (!alreadyReserved.length) {
-        if (localStorage.getItem("numTrainings") !== "" + 0) {
-          let newMember: User = {
-            id: localStorage.getItem("id")!,
-            username: localStorage.getItem("name")!,
-            password: localStorage.getItem("lastName")!,
-            role: localStorage.getItem("role")!,
-            numTrainings: +localStorage.getItem("numTrainings")!,
-          };
-          listTrainings.addMember(id, newMember);
+        if (user?.numTrainings !== 0) {
+          listTrainings.addMember(id, user!);
           let newList = [...listTrainings.listTrainings];
           if (day === "d1") {
             setTodayTraining(newList.filter((item) => item.day === day));
