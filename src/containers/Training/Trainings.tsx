@@ -14,8 +14,8 @@ const Trainings: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
-  const todayTrainingButton: string = "Danasnji treninzi"
-  const tomorrowTrainingButton: string = "Sutrasnji treninzi"
+  const todayTrainingButton: string = "Danasnji treninzi";
+  const tomorrowTrainingButton: string = "Sutrasnji treninzi";
 
   let todayTrainings: Training[] = listTrainings.listTrainings.filter(
     (item) => item.day !== "d2"
@@ -37,8 +37,8 @@ const Trainings: React.FC = () => {
     togglePopup();
     setTitle(title);
     setContent(content);
-    setTimeout(() => setIsOpen(false), 3000)
-  }
+    setTimeout(() => setIsOpen(false), 3000);
+  };
 
   const handleToday = () => {
     setToday(true);
@@ -67,13 +67,13 @@ const Trainings: React.FC = () => {
 
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       if (!alreadyReserved.length) {
-        if(!localStorage.getItem("id")!){
+        if (localStorage.getItem("numTrainings") !== "" + 0) {
           let newMember: User = {
             id: localStorage.getItem("id")!,
             username: localStorage.getItem("name")!,
             password: localStorage.getItem("lastName")!,
-            role: localStorage.getItem('role')!,
-            numTrainings: +localStorage.getItem('numTrainings')!,
+            role: localStorage.getItem("role")!,
+            numTrainings: +localStorage.getItem("numTrainings")!,
           };
           listTrainings.addMember(id, newMember);
           let newList = [...listTrainings.listTrainings];
@@ -82,14 +82,27 @@ const Trainings: React.FC = () => {
           } else {
             setTomorrowTraining(newList.filter((list) => list.day === day));
           }
-          popupLogic("Zakazivanje treninga", "Uspešno ste zakazali trening! :)")
+          popupLogic(
+            "Zakazivanje treninga",
+            "Uspešno ste zakazali trening! :)"
+          );
+        } else {
+          popupLogic(
+            "Zakazivanje treninga",
+            "Nemate treninga na raspolaganju. Molimo uplatite clanarinu."
+          );
         }
-        popupLogic("Zakazivanje treninga", "Nemate treninga na raspolaganju. Molimo uplatite clanarinu.")
       } else {
-        popupLogic("Zakazivanje treninga", "Vec ste zakazali trening u ovom terminu :)")
+        popupLogic(
+          "Zakazivanje treninga",
+          "Vec ste zakazali trening u ovom terminu :)"
+        );
       }
     } else {
-      popupLogic("Zakazivanje treninga", "Sva mesta su popunjana, odaberite neki drugi termin koji Vam odgovara.")
+      popupLogic(
+        "Zakazivanje treninga",
+        "Sva mesta su popunjana, odaberite neki drugi termin koji Vam odgovara."
+      );
     }
   };
 
