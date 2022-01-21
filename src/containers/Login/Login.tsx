@@ -45,11 +45,7 @@ const Login = (): ReactElement => {
     );
 
     if (user) {
-      localStorage.setItem("name", user.username);
-      localStorage.setItem("lastName", user.password);
-      localStorage.setItem("role", user.role);
       localStorage.setItem("id", user.id)
-      localStorage.setItem("numTrainings", '' + user.numTrainings)
       window.location.reload()
       history.push("/home");
     } else {
