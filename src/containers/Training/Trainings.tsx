@@ -5,7 +5,6 @@ import { listDays } from "../../service/listDays";
 import listTrainings from "../../service/listTrenings";
 import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
-import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common/Popup/popup";
 import { User } from "../../types/user.model";
 
@@ -68,21 +67,24 @@ const Trainings: React.FC = () => {
 
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       if (!alreadyReserved.length) {
-        let newMember: User = {
-          id: uuidv4(),
-          username: localStorage.getItem("name")!,
-          password: localStorage.getItem("lastName")!,
-          role: localStorage.getItem('role')!,
-          numTrainings: +localStorage.getItem('numTrainings')!,
-        };
-        listTrainings.addMember(id, newMember);
-        let newList = [...listTrainings.listTrainings];
-        if (day === "d1") {
-          setTodayTraining(newList.filter((item) => item.day === day));
-        } else {
-          setTomorrowTraining(newList.filter((list) => list.day === day));
+        if(!localStorage.getItem("id")!){
+          let newMember: User = {
+            id: localStorage.getItem("id")!,
+            username: localStorage.getItem("name")!,
+            password: localStorage.getItem("lastName")!,
+            role: localStorage.getItem('role')!,
+            numTrainings: +localStorage.getItem('numTrainings')!,
+          };
+          listTrainings.addMember(id, newMember);
+          let newList = [...listTrainings.listTrainings];
+          if (day === "d1") {
+            setTodayTraining(newList.filter((item) => item.day === day));
+          } else {
+            setTomorrowTraining(newList.filter((list) => list.day === day));
+          }
+          popupLogic("Zakazivanje treninga", "Uspešno ste zakazali trening! :)")
         }
-        popupLogic("Zakazivanje treninga", "Uspešno ste zakazali trening! :)")
+        popupLogic("Zakazivanje treninga", "Nemate treninga na raspolaganju. Molimo uplatite clanarinu.")
       } else {
         popupLogic("Zakazivanje treninga", "Vec ste zakazali trening u ovom terminu :)")
       }

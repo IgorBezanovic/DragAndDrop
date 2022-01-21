@@ -10,6 +10,7 @@ const Account: React.FC = () => {
   return (
     <div className="wrapper-account">
       <h1 className="welcome-title">Welcome, {user?.username}</h1>
+      <p>Broj preostalih treninga je: {user?.numTrainings}</p>
       {user?.role === "admin" ? (
         <div>
           <p>ja sam admin</p>
