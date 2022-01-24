@@ -13,11 +13,15 @@ const Account: React.FC = () => {
       <p>Broj preostalih treninga je: {user?.numTrainings}</p>
       {user?.role === "admin" ? (
         <div>
-          <p>ja sam admin</p>
+          <p>tito</p>
         </div>
       ) : (
         <div>
-          <p>ja sam user</p>
+          <h2>To do:</h2>
+          <p>dodavanje usera-a</p>
+          <p>brisanje user-a</p>
+          <p>promena passworda </p>
+          <p>u class-i user dodati lastName i password odvojeno - DONE</p>
         </div>
       )}
     </div>

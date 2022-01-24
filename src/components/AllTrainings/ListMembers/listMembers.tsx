@@ -11,7 +11,7 @@ const ListMembers = ({
 }) => (
   <div className="single-member">
     <p>
-      {member.username} {member.password}
+      {member.username} {member.lastName}
     </p>
     <button className="submit training-button" onClick={() => removeMember(member.id, trainingId)}>
       Remove Member

@@ -76,11 +76,12 @@ const Home: React.FC = () => {
       let newUser: User = {
         id: uuidv4(),
         username: window.prompt("Unesite ime klijenta?", "Probni")!,
-        password: window.prompt("Unesite prezime klijenta?", "trening")!,
+        lastName: window.prompt("Unesite prezime klijenta?", "trening")!,
+        password: '12345678',
         role: "member",
         numTrainings: 1
       };
-      listTrainings.addMember(id, newUser);
+      listTrainings.addFirstTraining(id, newUser);
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
       popupLogic("Zakazivanje treninga", "Klijent je uspesno dodat!");

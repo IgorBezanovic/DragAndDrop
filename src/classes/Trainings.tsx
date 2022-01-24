@@ -38,6 +38,15 @@ export class ListTrainings {
       .freeSpace;
   }
 
+  public addFirstTraining(trainingId: string, user: User) {
+    let foundIndex: number = this.listTrainings.findIndex(
+      (item) => item.id === trainingId
+    );
+    this.listTrainings[foundIndex].members.push(user);
+    this.listTrainings[foundIndex].freeSpace = --this.listTrainings[foundIndex]
+    .freeSpace;
+  }
+
   public removeMember(trainingId: string, memberId: string) {
     let foundIndex: number = this.listTrainings.findIndex(
       (item) => item.id === trainingId
