@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import listUsers from "../../service/listUsers";
 import { User } from "../../types/user.model";
+import "./style.css"
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -71,15 +72,13 @@ const Account: React.FC = () => {
               <TableHead>
                 <TableRow>
                   <StyledTableCell>Id</StyledTableCell>
-                  <StyledTableCell align="right">Name</StyledTableCell>
-                  <StyledTableCell align="right">Last Name</StyledTableCell>
-                  <StyledTableCell align="right">Password</StyledTableCell>
-                  <StyledTableCell align="right">
-                    Remaining trainings
-                  </StyledTableCell>
-                  <StyledTableCell align="right"></StyledTableCell>
-                  <StyledTableCell align="right"></StyledTableCell>
-                  <StyledTableCell align="right"></StyledTableCell>
+                  <StyledTableCell align="center">Name</StyledTableCell>
+                  <StyledTableCell align="center">Last Name</StyledTableCell>
+                  <StyledTableCell align="center">Password</StyledTableCell>
+                  <StyledTableCell align="center"># Trainings</StyledTableCell>
+                  <StyledTableCell align="center">Add Trainings</StyledTableCell>
+                  <StyledTableCell align="center">Change password</StyledTableCell>
+                  <StyledTableCell align="center">Delete User</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
