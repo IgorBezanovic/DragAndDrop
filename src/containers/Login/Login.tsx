@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import { Values } from "../../types/values.model";
 import listUsers from "../../service/listUsers";
 import "./style.css";
@@ -8,7 +8,7 @@ import BoxAccept from "../../components/AcceptTerms";
 import green from "@mui/material/colors/green";
 
 const Login = (): ReactElement => {
-  let history = useHistory();
+  // let history = useHistory();
   let [form, setForm] = useState<Values>({
     username: "",
     password: "",
@@ -73,7 +73,7 @@ const Login = (): ReactElement => {
       if(success){
         localStorage.setItem("id", user.id)
         window.location.reload()
-        history.push("/home");
+        // history.push("/home");
       } else {
         popupLogic("Loging in", "treba da procitate nase uslove i da cekirate Terms")
       }
@@ -107,7 +107,7 @@ const Login = (): ReactElement => {
               value={form.password}
             />
           </label>
-          <p>Our<a href="https://www.levi9.com/about/" target="_blank" rel="noreferrer">Terms and Conditions</a></p>
+          <p>Our <a href="https://www.levi9.com/about/" target="_blank" rel="noreferrer">Terms and Conditions</a></p>
           <BoxAccept
             buttonSx={buttonSx}
             handleButtonClick={handleButtonClick}
