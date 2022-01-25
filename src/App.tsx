@@ -4,9 +4,9 @@ import Routes from './common/routes'
 import Login from "./containers/Login/Login";
 
 const App: React.FC = () => {
-  const user :string | null = localStorage.getItem('name');
+  const userId :string | null = localStorage.getItem('id');
 
-  if(!user) {
+  if(!userId) {
     return <Login />
   }
 
