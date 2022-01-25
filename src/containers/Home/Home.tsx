@@ -75,12 +75,23 @@ const Home: React.FC = () => {
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       let newUser: User = {
         id: uuidv4(),
-        username: window.prompt("Unesite ime klijenta?", "Probni")!,
-        lastName: window.prompt("Unesite prezime klijenta?", "trening")!,
+        username: '',
+        lastName: '',
         password: '12345678',
         role: "member",
         numTrainings: 1
       };
+      
+      newUser.username = window.prompt("Unesite ime klijenta?", "Probni")!;
+      if (newUser.username !== null) {
+        newUser.lastName = window.prompt("Unesite prezime klijenta?", "trening")!;
+        if(newUser.lastName === null) {
+          return;
+        }
+      } else {
+        return;
+      } 
+
       listTrainings.addFirstTraining(id, newUser);
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
