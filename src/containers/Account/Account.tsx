@@ -60,16 +60,20 @@ const Account: React.FC = () => {
   const handleShowUsers = () => {
     setShowUsers(!showUsers);
   };
+
   const editTraining = (userId: string) => {
     console.log("edit traning");
   };
+
   const editPassword = (userId: string) => {
     console.log("edit passwrod");
   };
+  
   const deleteUser = (userId: string) => {
-    let newList: User[] = [...userList.filter((user) => user.id !== userId)];
+    listUsers.removeUser(userId)
+    let newList: User[] = [...listUsers.listUsers]
     setUser(newList);
-    
+
     let newListSearch: User[] = [...searchedUserList.filter((user) => user.id !== userId)];
     setSearchedUserList(newListSearch);
   };
