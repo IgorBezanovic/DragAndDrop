@@ -1,4 +1,5 @@
 export type Values = {
-    username: string;
-    password: string ;
-}
+  username: string;
+  lastName?: string;
+  password?: string;
+};

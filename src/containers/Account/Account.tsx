@@ -1,45 +1,78 @@
 import React, { useState } from "react";
 import listUsers from "../../service/listUsers";
 import { User } from "../../types/user.model";
-import "./style.css"
-import { styled } from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import "./style.css";
 import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { Values } from "../../types/values.model";
+import TableAllUsers from "../../components/Table/index";
+import Popup from "../../common/Popup/popup";
 
 const Account: React.FC = () => {
   const currentId: string | null = localStorage.getItem("id");
   const [userList, setUser] = useState<User[]>(listUsers.listUsers);
+  let [name, setName] = useState<Values>({
+    username: "",
+  });
   let user: User | undefined = userList.find((item) => item.id === currentId);
+  const [searchedUserList, setSearchedUserList] = useState<User[]>([]);
+  const [showUsers, setShowUsers] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [popupTitle, setTitle] = useState<string>("");
+  const [popupContent, setContent] = useState<string>("");
+
+  const togglePopup = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const popupLogic = (title: string, content: string) => {
+    togglePopup();
+    setTitle(title);
+    setContent(content);
+    setTimeout(() => setIsOpen(false), 3000);
+  };
+  const updateName = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof Values
+  ) => {
+    setName({
+      ...name,
+      [field]: e.target.value,
+    });
+  };
+
+  const updateList = () => {
+    if (name.username) {
+      let newList: User[] = [
+        ...userList.filter((user) =>
+          user.username.toLowerCase().includes(name.username.toLowerCase())
+        ),
+      ];
+      setSearchedUserList(newList);
+    } else {
+      popupLogic("Pretraga clanova", "Molimo vas unesite zeljeno ime");
+      setSearchedUserList([]);
+    }
+  };
+
+  const handleShowUsers = () => {
+    setShowUsers(!showUsers);
+  };
+  const editTraining = (userId: string) => {
+    console.log("edit traning");
+  };
+  const editPassword = (userId: string) => {
+    console.log("edit passwrod");
+  };
+  const deleteUser = (userId: string) => {
+    let newList: User[] = [...userList.filter((user) => user.id !== userId)];
+    setUser(newList);
+    
+    let newListSearch: User[] = [...searchedUserList.filter((user) => user.id !== userId)];
+    setSearchedUserList(newListSearch);
+  };
 
   return (
     <div className="wrapper-account">
@@ -51,86 +84,43 @@ const Account: React.FC = () => {
             New User
           </Button>
           <div style={{ margin: "20px 0" }}>
-            Search User by name:
-            <Box
-              component="form"
-              sx={{
-                "& > :not(style)": { m: 1, width: "25ch" },
-              }}
-              noValidate
-              autoComplete="on"
-            >
-              <TextField
-                id="outlined-basic"
-                label="Outlined"
-                variant="outlined"
+            <label>
+              <p className="label-name">Search by user name:</p>
+              <input
+                type="text"
+                name="username"
+                onChange={(e) => updateName(e, "username")}
+                value={name.username}
               />
-            </Box>
+            </label>
+            <button onClick={updateList} type="submit">
+              Search
+            </button>
           </div>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>Id</StyledTableCell>
-                  <StyledTableCell align="center">Name</StyledTableCell>
-                  <StyledTableCell align="center">Last Name</StyledTableCell>
-                  <StyledTableCell align="center">Password</StyledTableCell>
-                  <StyledTableCell align="center"># Trainings</StyledTableCell>
-                  <StyledTableCell align="center">Add Trainings</StyledTableCell>
-                  <StyledTableCell align="center">Change password</StyledTableCell>
-                  <StyledTableCell align="center">Delete User</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {userList.map((user) => (
-                  <StyledTableRow key={user.id}>
-                    <StyledTableCell component="th" scope="row">
-                      {user.id}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {user.username}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {user.lastName}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {user.password}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {user.numTrainings}
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <Button
-                        variant="outlined"
-                        color="success"
-                        startIcon={<AddIcon />}
-                      >
-                        Num Trainings
-                      </Button>
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <Button
-                        variant="outlined"
-                        color="secondary"
-                        startIcon={<EditIcon />}
-                      >
-                        Password
-                      </Button>
-                    </StyledTableCell>
-                    <StyledTableCell align="right">
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        startIcon={<DeleteIcon />}
-                      >
-                        User
-                      </Button>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          {!!searchedUserList.length && (
+            <TableAllUsers
+              userList={searchedUserList}
+              editTraining={editTraining}
+              editPassword={editPassword}
+              deleteUser={deleteUser}
+            />
+          )}
+          <Button
+            variant="outlined"
+            color="success"
+            startIcon={showUsers ? <VisibilityOffIcon /> : <VisibilityIcon />}
+            onClick={handleShowUsers}
+          >
+            {showUsers ? "Hide users" : "Show all users"}
+          </Button>
+          {showUsers && (
+            <TableAllUsers
+              userList={userList}
+              editTraining={editTraining}
+              editPassword={editPassword}
+              deleteUser={deleteUser}
+            />
+          )}
         </div>
       ) : (
         <div>
@@ -140,6 +130,13 @@ const Account: React.FC = () => {
           <p>promena passworda </p>
           <p>u class-i user dodati lastName i password odvojeno - DONE</p>
         </div>
+      )}
+      {isOpen && (
+        <Popup
+          title={popupTitle}
+          content={popupContent}
+          handleClose={togglePopup}
+        />
       )}
     </div>
   );
