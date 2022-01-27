@@ -3,7 +3,7 @@ import { ListUsers } from "../classes/Users";
 let users: ListUsers = new ListUsers([
   { id: "1", username: "Igor", lastName: "Bezanovic", password: "Bezanovic", role: "admin", numTrainings: 14 },
   { id: "2", username: "Aleksa", lastName: "Ivkovic", password: "Ivkovic", role: "admin",  numTrainings: 18},
-  { id: "3", username: "Igor", lastName: "Dragutinovic", password: "Dragutinovic", role: "user",  numTrainings: 16},
+  { id: "3", username: "Igor", lastName: "Dragutinovic", password: "Dragutinovic", role: "admin",  numTrainings: 16},
   { id: "4", username: "Milan", lastName: "Kadija", password: "Kadija", role: "user",  numTrainings: 14},
   { id: "5", username: "Zoran", lastName: "Stojanovic", password: "Stojanovic", role: "user",  numTrainings: 8},
   { id: "6", username: "Jovan", lastName: "Utvic", password: "Utvic", role: "user",  numTrainings: 6},
