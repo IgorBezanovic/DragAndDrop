@@ -9,6 +9,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Values } from "../../types/values.model";
 import TableAllUsers from "../../components/Table/index";
 import Popup from "../../common/Popup/popup";
+import Dialog from "../../common/Dialog/dialog";
 
 const Account: React.FC = () => {
   const currentId: string | null = localStorage.getItem("id");
@@ -22,6 +23,7 @@ const Account: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
+  const [open, setOpen] = React.useState(false);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -66,15 +68,32 @@ const Account: React.FC = () => {
   };
 
   const editPassword = (userId: string) => {
-    console.log("edit passwrod");
+    setOpen(!open);
+    console.log(open);
+
+    let dialog = (
+      <Dialog
+        title={"Promena passworda"}
+        content={"Unesite zeljene izmene"}
+        handleClose={() => editTraining(userId)}
+        open={open}
+        addFunction={() => editTraining(userId)}
+      >
+        <p>Igor</p>
+      </Dialog>
+    );
+    console.log(dialog)
+    return dialog;
   };
-  
+
   const deleteUser = (userId: string) => {
-    listUsers.removeUser(userId)
-    let newList: User[] = [...listUsers.listUsers]
+    listUsers.removeUser(userId);
+    let newList: User[] = [...listUsers.listUsers];
     setUser(newList);
 
-    let newListSearch: User[] = [...searchedUserList.filter((user) => user.id !== userId)];
+    let newListSearch: User[] = [
+      ...searchedUserList.filter((user) => user.id !== userId),
+    ];
     setSearchedUserList(newListSearch);
   };
 

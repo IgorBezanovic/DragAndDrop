@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import listTrainings from "../../service/listTrenings";
-import listUsers  from "../../service/listUsers";
+import listUsers from "../../service/listUsers";
 import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
 import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common/Popup/popup";
-import Dialog from "../../common/Dialog/dialog"
-import TextField from "@mui/material/TextField";
+import AddExtraTraining from "../../components/AddExtraTraining";
 import { User } from "../../types/user.model";
 
 const Home: React.FC = () => {
@@ -75,22 +74,25 @@ const Home: React.FC = () => {
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       let newUser: User = {
         id: uuidv4(),
-        username: '',
-        lastName: '',
-        password: '12345678',
+        username: "",
+        lastName: "",
+        password: "12345678",
         role: "member",
-        numTrainings: 1
+        numTrainings: 1,
       };
-      
+
       newUser.username = window.prompt("Unesite ime klijenta?", "Probni")!;
       if (newUser.username !== null) {
-        newUser.lastName = window.prompt("Unesite prezime klijenta?", "trening")!;
-        if(newUser.lastName === null) {
+        newUser.lastName = window.prompt(
+          "Unesite prezime klijenta?",
+          "trening"
+        )!;
+        if (newUser.lastName === null) {
           return;
         }
       } else {
         return;
-      } 
+      }
 
       listTrainings.addFirstTraining(id, newUser);
       let newList: Training[] = [...listTrainings.listTrainings];
@@ -105,7 +107,7 @@ const Home: React.FC = () => {
     if (
       newTraining.day !== "" &&
       newTraining.startHours !== "" &&
-      newTraining.freeSpace !== 0 
+      newTraining.freeSpace !== 0
     ) {
       newTraining.id = uuidv4();
       listTrainings.addTraining(newTraining);
@@ -115,7 +117,10 @@ const Home: React.FC = () => {
       popupLogic("Dodavanje treninga", "Trening je uspesno dodat.");
     } else {
       handleClose();
-      popupLogic("Morate popuniti sva polja", "Sva polja moraju biti popunjena kako bi se trening uspesno dodao.");
+      popupLogic(
+        "Morate popuniti sva polja",
+        "Sva polja moraju biti popunjena kako bi se trening uspesno dodao."
+      );
     }
   };
 
@@ -155,54 +160,15 @@ const Home: React.FC = () => {
               handleClose={togglePopup}
             />
           )}
-          <Dialog
+          <AddExtraTraining
             title={"Dodavanje treninga"}
             content={"Unesite trazene informacije: "}
             handleClose={handleClose}
             open={open}
-            addFunction={addTraining}
-          >
-            <label className="radio-label">
-                Today
-                  <input
-                    type="radio"
-                    value='d1'
-                    className="radio-button"
-                    onChange={(e) => handleChange(e, "day")}
-                    checked={newTraining.day === 'd1'}
-                  />
-              </label>
-              <label className="radio-label">
-                Tomorrow
-                  <input
-                    type="radio"
-                    value='d2'
-                    className="radio-button"
-                    onChange={(e) => handleChange(e, "day")}
-                    checked={newTraining.day === 'd2'}
-                  />
-              </label>
-              <TextField
-                margin="dense"
-                id="startHours"
-                label="Enter the start time?"
-                type="text"
-                fullWidth
-                variant="standard"
-                onChange={(e) => handleChange(e, "startHours")}
-                value={newTraining.startHours}
-              />
-              <TextField
-                margin="dense"
-                id="freeSpace"
-                label="Enter the number of free space ?"
-                type="number"
-                fullWidth
-                variant="standard"
-                onChange={(e) => handleChange(e, "freeSpace")}
-                value={newTraining.freeSpace}
-              />
-          </Dialog>
+            addTraining={addTraining}
+            handleChange={handleChange}
+            newTraining={newTraining}
+          />
         </div>
       ) : (
         <div>
