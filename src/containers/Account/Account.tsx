@@ -14,6 +14,9 @@ import EditNumTrainings from "../../components/Dialogs/EditNumTrainings/index";
 import EditPassword from "../../components/Dialogs/EditPassword/index";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LogoutDialog from "../../components/Dialogs/LogoutDialog/index";
+import AddNewUser from "../../components/Dialogs/AddNewUser/index";
+import { v4 as uuidv4 } from "uuid";
+
 const Account: React.FC = () => {
   const currentId: string | null = localStorage.getItem("id");
   const [userList, setUser] = useState<User[]>(listUsers.listUsers);
@@ -21,9 +24,13 @@ const Account: React.FC = () => {
     username: "",
   });
   let [userEdit, setEditUser] = useState<Values>({
+    id: "",
     username: "",
+    lastName: "",
+    password: "",
     newPassword: "",
     repeatPassword: "",
+    role: "",
     numTrainings: 0,
   });
   let user: User | undefined = userList.find((item) => item.id === currentId);
@@ -37,6 +44,7 @@ const Account: React.FC = () => {
   const [openEditPassword, setOpenEditPassword] = useState<boolean>(false);
   const [openRemoveUser, setOpenRemoveUser] = useState<boolean>(false);
   const [openLogout, setOpenLogout] = useState<boolean>(false);
+  const [openNewUser, setOpenNewUser] = useState<boolean>(false);
   const [editUser, setEditUserId] = useState<string>("");
 
   const togglePopup = () => {
@@ -223,24 +231,49 @@ const Account: React.FC = () => {
   };
 
   const logout = () => {
-    localStorage.setItem("id", '')
-    window.location.reload()
-    setOpenLogout(false)
-  }
+    localStorage.setItem("id", "");
+    window.location.reload();
+    setOpenLogout(false);
+  };
   const handlerOpenLogout = () => {
     setOpenLogout(true);
-
-  }
+  };
   const handlerCancelLogout = () => {
-    setOpenLogout(false)
-  }
+    setOpenLogout(false);
+  };
+  const registerNewUser = () => {
+    if (userEdit) {
+      let newUser = {
+        id: uuidv4(),
+        username: userEdit.username,
+        lastName: userEdit.lastName!,
+        password: userEdit.password!,
+        role: userEdit.role!,
+        numTrainings: +userEdit.numTrainings!,
+      };
+      listUsers.listUsers.push(newUser);
+      setUser([...listUsers.listUsers]);
+    }
+    setOpenNewUser(false);
+  };
+  const handlerOpenNewUser = () => {
+    setOpenNewUser(true);
+  };
+  const handlerCancelNewUser = () => {
+    setOpenNewUser(false);
+  };
   return (
     <div className="wrapper-account">
       <h1 className="welcome-title">Welcome, {user?.username}</h1>
       <p>Broj mojih preostalih treninga je: {user?.numTrainings}</p>
       {user?.role === "admin" ? (
         <div>
-          <Button variant="outlined" color="success" startIcon={<AddIcon />}>
+          <Button
+            variant="outlined"
+            color="success"
+            startIcon={<AddIcon />}
+            onClick={handlerOpenNewUser}
+          >
             New User
           </Button>
           <div style={{ margin: "20px 0" }}>
@@ -315,6 +348,15 @@ const Account: React.FC = () => {
               </strong>
             </p>
           </Dialog>
+          <AddNewUser
+            title={"Registrovanje novog korisnika"}
+            content={""}
+            handleClose={handlerCancelNewUser}
+            open={openNewUser}
+            addTraining={registerNewUser}
+            handleChangeUser={handleChangeUser}
+            user={userEdit}
+          />
         </div>
       ) : (
         <div>
@@ -332,12 +374,17 @@ const Account: React.FC = () => {
           handleClose={togglePopup}
         />
       )}
-      <Button variant="outlined" color="secondary" startIcon={<LogoutIcon />} onClick={handlerOpenLogout}>
+      <Button
+        variant="outlined"
+        color="secondary"
+        startIcon={<LogoutIcon />}
+        onClick={handlerOpenLogout}
+      >
         Logout
       </Button>
       <LogoutDialog
-        title={'Logout'}
-        content={''}
+        title={"Logout"}
+        content={"Ovom akcijom izlogovacete se iz nase aplikacije"}
         handleClose={handlerCancelLogout}
         open={openLogout}
         addTraining={logout}

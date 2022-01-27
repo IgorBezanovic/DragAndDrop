@@ -39,7 +39,7 @@ const TableRowSingle = ({
 }) => (
   <StyledTableRow>
     <StyledTableCell component="th" scope="row">
-      {user.id}
+      {user.id.length > 4 ? user.id.slice(0, -32) + "..." : user.id}
     </StyledTableCell>
     <StyledTableCell align="right">{user.username}</StyledTableCell>
     <StyledTableCell align="right">{user.lastName}</StyledTableCell>
