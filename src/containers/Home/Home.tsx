@@ -8,12 +8,26 @@ import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common/Popup/popup";
 import AddExtraTraining from "../../components/Dialogs/AddExtraTraining";
 import { User } from "../../types/user.model";
+import {
+  ADD_TRAINING,
+  ALL_FIELDS_FILLED_TRAINING,
+  DELETE_DAILY_TRAINING,
+  DELETE_FROM_LIST,
+  ENTER_THE_LAST_NAME,
+  ENTER_THE_NAME,
+  REQUIRED_INFO,
+  SCHEDULING_TRAINING,
+  SEATS_FILLED,
+  SUCCESSFULLY_ADDED,
+  SUCCESSFULLY_DELETE,
+  TRAINING_SUCCESSFULLY_ADDED,
+  TRAINING_SUCCESSFULLY_DELETED,
+} from "../../common/constants";
 
 const Home: React.FC = () => {
   const currentId: string | null = localStorage.getItem("id");
   const userList = listUsers.listUsers;
   let user: User | undefined = userList.find((item) => item.id === currentId);
-
   const [listMembers, setMembers] = useState<Training[]>(
     listTrainings.listTrainings
   );
@@ -21,7 +35,6 @@ const Home: React.FC = () => {
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
   const [open, setOpen] = React.useState(false);
-
   let [newTraining, setValue] = useState<Training>({
     id: "",
     day: "",
@@ -64,13 +77,14 @@ const Home: React.FC = () => {
     listTrainings.removeMember(trainingId, memberId);
     let newList: Training[] = [...listTrainings.listTrainings];
     setMembers(newList);
-    popupLogic("Brisanje sa liste clanova", "Clan je uspesno obrisan.");
+    popupLogic(DELETE_FROM_LIST, SUCCESSFULLY_DELETE);
   };
 
   const addMember = (id: string) => {
     let freeSpaceIndex: number = listTrainings.listTrainings.findIndex(
       (item) => item.id === id
     );
+
     if (listTrainings.listTrainings[freeSpaceIndex].freeSpace) {
       let newUser: User = {
         id: uuidv4(),
@@ -81,12 +95,9 @@ const Home: React.FC = () => {
         numTrainings: 1,
       };
 
-      newUser.username = window.prompt("Unesite ime klijenta?", "Probni")!;
+      newUser.username = window.prompt(ENTER_THE_NAME, "Probni")!;
       if (newUser.username !== null) {
-        newUser.lastName = window.prompt(
-          "Unesite prezime klijenta?",
-          "trening"
-        )!;
+        newUser.lastName = window.prompt(ENTER_THE_LAST_NAME, "trening")!;
         if (newUser.lastName === null) {
           return;
         }
@@ -97,9 +108,9 @@ const Home: React.FC = () => {
       listTrainings.addFirstTraining(id, newUser);
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
-      popupLogic("Zakazivanje treninga", "Klijent je uspesno dodat!");
+      popupLogic(SCHEDULING_TRAINING, SUCCESSFULLY_ADDED);
     } else {
-      popupLogic("Zakazivanje treninga", "Sva mesta su popunjena!");
+      popupLogic(SCHEDULING_TRAINING, SEATS_FILLED);
     }
   };
 
@@ -114,13 +125,9 @@ const Home: React.FC = () => {
       let newList: Training[] = [...listTrainings.listTrainings];
       setMembers(newList);
       handleClose();
-      popupLogic("Dodavanje treninga", "Trening je uspesno dodat.");
+      popupLogic(ADD_TRAINING, TRAINING_SUCCESSFULLY_ADDED);
     } else {
-      handleClose();
-      popupLogic(
-        "Morate popuniti sva polja",
-        "Sva polja moraju biti popunjena kako bi se trening uspesno dodao."
-      );
+      popupLogic(REQUIRED_INFO, ALL_FIELDS_FILLED_TRAINING);
     }
   };
 
@@ -128,7 +135,7 @@ const Home: React.FC = () => {
     listTrainings.removeTraining(id);
     let newList: Training[] = [...listTrainings.listTrainings];
     setMembers(newList);
-    popupLogic("Brisanje dnevnog treninga", "Trening je uspesno obrisan.");
+    popupLogic(DELETE_DAILY_TRAINING, TRAINING_SUCCESSFULLY_DELETED);
   };
 
   return (
@@ -161,8 +168,8 @@ const Home: React.FC = () => {
             />
           )}
           <AddExtraTraining
-            title={"Dodavanje treninga"}
-            content={"Unesite trazene informacije: "}
+            title={ADD_TRAINING}
+            content={REQUIRED_INFO}
             handleClose={handleClose}
             open={open}
             addTraining={addTraining}
@@ -172,7 +179,7 @@ const Home: React.FC = () => {
         </div>
       ) : (
         <div>
-          <p>Ovde mozes procitati vise o nasim organizacijama</p>
+          <p>You can read more about our organizations here:</p>
           <a href="https://www.levi9.com/">Levi9</a>
           <a href="https://inside.rs.levi9.com/">Levi9 - inside</a>
           <a href="https://www.crossfit.com/">CrossFit</a>

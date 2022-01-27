@@ -1,4 +1,10 @@
 import TextField from "@mui/material/TextField";
+import {
+  ELITE,
+  ENTER_THE_NAME,
+  REGULAR,
+  STUDENT,
+} from "../../../common/constants";
 import Dialog from "../../../common/Dialog/dialog";
 import { Values } from "../../../types/values.model";
 
@@ -32,7 +38,7 @@ const EditNumTrainings = ({
     <TextField
       margin="dense"
       id="username"
-      label="Enter a Name of user:"
+      label={ENTER_THE_NAME}
       type="text"
       fullWidth
       variant="standard"
@@ -40,7 +46,7 @@ const EditNumTrainings = ({
       value={user.username}
     />
     <label className="radio-label">
-      Student Paket - 12 Treninga
+      {STUDENT}
       <input
         type="radio"
         value={12}
@@ -49,7 +55,7 @@ const EditNumTrainings = ({
       />
     </label>
     <label className="radio-label">
-      Regular Paket - 16 treninga
+      {REGULAR}
       <input
         type="radio"
         value={16}
@@ -58,7 +64,7 @@ const EditNumTrainings = ({
       />
     </label>
     <label className="radio-label">
-      Elit Paket - 20 Treninga
+      {ELITE}
       <input
         type="radio"
         value={20}

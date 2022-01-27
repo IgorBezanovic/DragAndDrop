@@ -1,4 +1,12 @@
 import TextField from "@mui/material/TextField";
+import {
+  ELITE,
+  ENTER_THE_LAST_NAME,
+  ENTER_THE_NAME,
+  ENTER_THE_PASSWORD,
+  REGULAR,
+  STUDENT,
+} from "../../../common/constants";
 import Dialog from "../../../common/Dialog/dialog";
 import { Values } from "../../../types/values.model";
 
@@ -9,14 +17,17 @@ const AddNewUser = ({
   open,
   addTraining,
   handleChangeUser,
-  user
+  user,
 }: {
   title: string;
   content: string;
   handleClose: () => void;
   open: boolean;
   addTraining: () => void;
-  handleChangeUser: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>, field: keyof Values) => void;
+  handleChangeUser: (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    field: keyof Values
+  ) => void;
   user: Values;
 }) => (
   <Dialog
@@ -30,7 +41,7 @@ const AddNewUser = ({
       Admin
       <input
         type="radio"
-        value={'admin'}
+        value={"admin"}
         className="radio-button"
         onChange={(e) => handleChangeUser(e, "role")}
       />
@@ -39,13 +50,13 @@ const AddNewUser = ({
       User
       <input
         type="radio"
-        value={'user'}
+        value={"user"}
         className="radio-button"
         onChange={(e) => handleChangeUser(e, "role")}
       />
     </label>
     <label className="radio-label">
-      Student Paket - 12 Treninga
+      {STUDENT}
       <input
         type="radio"
         value={12}
@@ -54,7 +65,7 @@ const AddNewUser = ({
       />
     </label>
     <label className="radio-label">
-      Regular Paket - 16 treninga
+      {REGULAR}
       <input
         type="radio"
         value={16}
@@ -63,7 +74,7 @@ const AddNewUser = ({
       />
     </label>
     <label className="radio-label">
-      Elit Paket - 20 Treninga
+      {ELITE}
       <input
         type="radio"
         value={20}
@@ -74,7 +85,7 @@ const AddNewUser = ({
     <TextField
       margin="dense"
       id="username"
-      label="Enter a Name of user:"
+      label={ENTER_THE_NAME}
       type="text"
       fullWidth
       variant="standard"
@@ -84,7 +95,7 @@ const AddNewUser = ({
     <TextField
       margin="dense"
       id="newPassword"
-      label="Enter a last name of user:"
+      label={ENTER_THE_LAST_NAME}
       type="text"
       fullWidth
       variant="standard"
@@ -94,7 +105,7 @@ const AddNewUser = ({
     <TextField
       margin="dense"
       id="repeatPassword"
-      label="Enter a password:"
+      label={ENTER_THE_PASSWORD}
       type="text"
       fullWidth
       variant="standard"

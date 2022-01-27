@@ -8,6 +8,15 @@ import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
 import Popup from "../../common/Popup/popup";
 import { User } from "../../types/user.model";
 import listUsers from "../../service/listUsers";
+import {
+  ALREADY_SCHEDULED,
+  MEMBERSHIP_FEE,
+  SCHEDULING_TRAINING,
+  SEATS_FILLED,
+  SUCCESSFULLY_SCHEDULED_TRAINING,
+  TODAY_TRAININGS,
+  TOMORROW_TRAININGS,
+} from "../../common/constants";
 
 const Trainings: React.FC = () => {
   const [isToday, setToday] = useState<boolean>(true);
@@ -15,8 +24,6 @@ const Trainings: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
-  const todayTrainingButton: string = "Danasnji treninzi";
-  const tomorrowTrainingButton: string = "Sutrasnji treninzi";
   const currentId: string | null = localStorage.getItem("id");
   const userList = listUsers.listUsers;
   let user: User | undefined = userList.find((item) => item.id === currentId);
@@ -24,7 +31,6 @@ const Trainings: React.FC = () => {
   let todayTrainings: Training[] = listTrainings.listTrainings.filter(
     (item) => item.day !== "d2"
   );
-
   let tomorrowTrainings: Training[] = listTrainings.listTrainings.filter(
     (item) => item.day !== "d1"
   );
@@ -75,27 +81,15 @@ const Trainings: React.FC = () => {
           } else {
             setTomorrowTraining(newList.filter((list) => list.day === day));
           }
-          popupLogic(
-            "Zakazivanje treninga",
-            "Uspešno ste zakazali trening! :)"
-          );
+          popupLogic(SCHEDULING_TRAINING, SUCCESSFULLY_SCHEDULED_TRAINING);
         } else {
-          popupLogic(
-            "Zakazivanje treninga",
-            "Nemate treninga na raspolaganju. Molimo uplatite clanarinu."
-          );
+          popupLogic(SCHEDULING_TRAINING, MEMBERSHIP_FEE);
         }
       } else {
-        popupLogic(
-          "Zakazivanje treninga",
-          "Vec ste zakazali trening u ovom terminu :)"
-        );
+        popupLogic(SCHEDULING_TRAINING, ALREADY_SCHEDULED);
       }
     } else {
-      popupLogic(
-        "Zakazivanje treninga",
-        "Sva mesta su popunjana, odaberite neki drugi termin koji Vam odgovara."
-      );
+      popupLogic(SCHEDULING_TRAINING, SEATS_FILLED);
     }
   };
 
@@ -115,7 +109,7 @@ const Trainings: React.FC = () => {
       </div>
       <div>
         <TrainingWrapper
-          title={isToday ? todayTrainingButton : tomorrowTrainingButton}
+          title={isToday ? TODAY_TRAININGS : TOMORROW_TRAININGS}
           list={isToday ? todayTrainingsList : tomorrowTrainingsList}
           takeSpot={takeSpot}
         />

@@ -9,13 +9,34 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Values } from "../../types/values.model";
 import TableAllUsers from "../../components/Table/index";
 import Popup from "../../common/Popup/popup";
-import Dialog from "../../common/Dialog/dialog";
 import EditNumTrainings from "../../components/Dialogs/EditNumTrainings/index";
 import EditPassword from "../../components/Dialogs/EditPassword/index";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LogoutDialog from "../../components/Dialogs/LogoutDialog/index";
+import DeleteUserDialog from "../../components/Dialogs/DeleteUserDialog/index";
 import AddNewUser from "../../components/Dialogs/AddNewUser/index";
 import { v4 as uuidv4 } from "uuid";
+import {
+  CHANGE_PASSWORD,
+  DELETE_USER,
+  DELETE_USER_ACTION,
+  EDITING_PASSWORD,
+  EDIT_NUM_TRAININGS,
+  ENTER_THE_NAME,
+  LOGOUT,
+  LOGOUT_ACTION,
+  MINIMUM_EIGHT_CHAR,
+  MUST_BE_THE_SAME,
+  MUST_ONE_NUMBER,
+  NEW_USER_REG,
+  NOT_ENTER_PASSWORD,
+  NOT_REPEAT_PASSWORD,
+  NOT_SELECTED_PACKAGE,
+  NOT_VALID_USERNAME,
+  PAYMENT_PACKAGES,
+  REQUIRED_INFO,
+  SEARCH_MEMBERS,
+} from "../../common/constants";
 
 const Account: React.FC = () => {
   const currentId: string | null = localStorage.getItem("id");
@@ -87,7 +108,7 @@ const Account: React.FC = () => {
       ];
       setSearchedUserList(newList);
     } else {
-      popupLogic("Pretraga clanova", "Molimo vas unesite zeljeno ime");
+      popupLogic(SEARCH_MEMBERS, ENTER_THE_NAME);
       setSearchedUserList([]);
     }
   };
@@ -95,7 +116,7 @@ const Account: React.FC = () => {
   const handleShowUsers = () => {
     setShowUsers(!showUsers);
   };
-  //dodavanje broja treninga
+
   const handleEditNumTraining = (userId: string) => {
     setEditUserId(userId);
     handleOpenNumTraining();
@@ -121,16 +142,10 @@ const Account: React.FC = () => {
         });
         setOpenEditNumTrainings(false);
       } else {
-        popupLogic(
-          "Uplata paketa treninga",
-          "Niste odabrali paket za uplatu treninga"
-        );
+        popupLogic(PAYMENT_PACKAGES, NOT_SELECTED_PACKAGE);
       }
     } else {
-      popupLogic(
-        "Uplata paketa treninga",
-        "Niste uneli ispravno ime korisnika za uplatu paketa treninga"
-      );
+      popupLogic(PAYMENT_PACKAGES, NOT_VALID_USERNAME);
     }
   };
   const handleCancelNumTraining = () => {
@@ -143,7 +158,6 @@ const Account: React.FC = () => {
     setOpenEditNumTrainings(false);
   };
 
-  // editovanje passworda
   const handleEditPassword = (userId: string) => {
     setEditUserId(userId);
     handleOpenPassword();
@@ -173,31 +187,22 @@ const Account: React.FC = () => {
                 });
                 setOpenEditPassword(false);
               } else {
-                popupLogic(
-                  "Promena passworda",
-                  "Password mora da ima minimum 1 broj"
-                );
+                popupLogic(CHANGE_PASSWORD, MUST_ONE_NUMBER);
               }
             } else {
-              popupLogic(
-                "Promena passworda",
-                "Password mora da ima minimum 8 karaktera"
-              );
+              popupLogic(CHANGE_PASSWORD, MINIMUM_EIGHT_CHAR);
             }
           } else {
-            popupLogic("Promena passworda", "Password mora biti isti.");
+            popupLogic(CHANGE_PASSWORD, MUST_BE_THE_SAME);
           }
         } else {
-          popupLogic("Promena passworda", "Niste uneli ponovljeni password");
+          popupLogic(CHANGE_PASSWORD, NOT_REPEAT_PASSWORD);
         }
       } else {
-        popupLogic("Promena passworda", "Niste uneli password");
+        popupLogic(CHANGE_PASSWORD, NOT_ENTER_PASSWORD);
       }
     } else {
-      popupLogic(
-        "Promena passworda",
-        "Niste uneli ispravno ime korisnika za promenu passworda"
-      );
+      popupLogic(CHANGE_PASSWORD, NOT_VALID_USERNAME);
     }
   };
 
@@ -265,7 +270,7 @@ const Account: React.FC = () => {
   return (
     <div className="wrapper-account">
       <h1 className="welcome-title">Welcome, {user?.username}</h1>
-      <p>Broj mojih preostalih treninga je: {user?.numTrainings}</p>
+      <p>The number of my remaining training is: {user?.numTrainings}</p>
       {user?.role === "admin" ? (
         <div>
           <Button
@@ -315,10 +320,8 @@ const Account: React.FC = () => {
             />
           )}
           <EditPassword
-            title={"Editing password"}
-            content={
-              "Password mora da ima minimum 8 karaktera, od toga 1 mora biti broj"
-            }
+            title={EDITING_PASSWORD}
+            content={MINIMUM_EIGHT_CHAR + " and " + MUST_ONE_NUMBER}
             handleClose={handleCancelPassword}
             open={openEditPassword}
             addTraining={handleClosePassword}
@@ -326,31 +329,24 @@ const Account: React.FC = () => {
             user={userEdit}
           />
           <EditNumTrainings
-            title={"Editing number of trainings"}
-            content={"Unesite trazene podatke"}
+            title={EDIT_NUM_TRAININGS}
+            content={REQUIRED_INFO}
             handleClose={handleCancelNumTraining}
             open={openEditNumTrainings}
             addTraining={handleCloseNumTraining}
             handleChangeUser={handleChangeUser}
             user={userEdit}
           />
-          <Dialog
-            title={"Brisanje korisnika"}
-            content={"Ovom akcijom obrisacete korisnika vasih usluga"}
+          <DeleteUserDialog
+            title={DELETE_USER}
+            content={DELETE_USER_ACTION}
             handleClose={handleCancelRemoveUser}
             open={openRemoveUser}
-            addFunction={deleteUser}
-          >
-            <br></br>
-            <p>
-              <strong>
-                Da li ste sigurni da zelite da obrisete korisnika?
-              </strong>
-            </p>
-          </Dialog>
+            deleteUser={deleteUser}
+          />
           <AddNewUser
-            title={"Registrovanje novog korisnika"}
-            content={""}
+            title={NEW_USER_REG}
+            content={REQUIRED_INFO}
             handleClose={handlerCancelNewUser}
             open={openNewUser}
             addTraining={registerNewUser}
@@ -361,10 +357,12 @@ const Account: React.FC = () => {
       ) : (
         <div>
           <h2>To do:</h2>
-          <p>dodavanje usera-a</p>
-          <p>brisanje user-a</p>
-          <p>promena passworda </p>
+          <p>dodavanje usera-a - DONE</p>
+          <p>brisanje user-a - DONE</p>
+          <p>promena passworda - DONE</p>
           <p>u class-i user dodati lastName i password odvojeno - DONE</p>
+          <p>izvlacenje konstanti - DONE</p>
+          <p>uslovi prilikom registracije - PROGRESS</p>
         </div>
       )}
       {isOpen && (
@@ -383,8 +381,8 @@ const Account: React.FC = () => {
         Logout
       </Button>
       <LogoutDialog
-        title={"Logout"}
-        content={"Ovom akcijom izlogovacete se iz nase aplikacije"}
+        title={LOGOUT}
+        content={LOGOUT_ACTION}
         handleClose={handlerCancelLogout}
         open={openLogout}
         addTraining={logout}

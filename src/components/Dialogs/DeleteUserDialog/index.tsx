@@ -1,27 +1,29 @@
 import Dialog from "../../../common/Dialog/dialog";
 
-const LogoutDialog = ({
+const DeleteUserDialog = ({
   title,
   content,
   handleClose,
   open,
-  addTraining,
+  deleteUser,
 }: {
   title: string;
   content: string;
   handleClose: () => void;
   open: boolean;
-  addTraining: () => void;
+  deleteUser: () => void;
 }) => (
   <Dialog
     title={title}
     content={content}
     handleClose={handleClose}
     open={open}
-    addFunction={addTraining}
+    addFunction={deleteUser}
   >
-      <br></br>
-      <p><strong>Are you sure you want to log out?</strong></p>
- </Dialog>
+    <br></br>
+    <p>
+      <strong>Are you sure you want to delete the user?</strong>
+    </p>
+  </Dialog>
 );
-export default LogoutDialog;
+export default DeleteUserDialog;
