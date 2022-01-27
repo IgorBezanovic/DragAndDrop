@@ -1,6 +1,7 @@
 import TextField from "@mui/material/TextField";
-import Dialog from "../../common/Dialog/dialog";
-import { Training } from "../../types/training.model"
+import Dialog from "../../../common/Dialog/dialog";
+import { Training } from "../../../types/training.model";
+
 const AddExtraTraining = ({
   title,
   content,

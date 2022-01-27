@@ -6,7 +6,7 @@ import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
 import { v4 as uuidv4 } from "uuid";
 import Popup from "../../common/Popup/popup";
-import AddExtraTraining from "../../components/AddExtraTraining";
+import AddExtraTraining from "../../components/Dialogs/AddExtraTraining";
 import { User } from "../../types/user.model";
 
 const Home: React.FC = () => {
