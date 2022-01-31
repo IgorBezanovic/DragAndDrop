@@ -167,43 +167,50 @@ const Account: React.FC = () => {
     setOpenEditPassword(true);
   };
 
+  const helperCheckAndSetPassword = (checkUserName: boolean, userEdit: Values, editUserIndex: number) => {
+    if (!checkUserName) {
+      return popupLogic(CHANGE_PASSWORD, NOT_VALID_USERNAME);
+    }
+
+    if (!userEdit.newPassword) {
+      return popupLogic(CHANGE_PASSWORD, NOT_ENTER_PASSWORD);
+    }
+
+    if (!userEdit.repeatPassword) {
+      return popupLogic(CHANGE_PASSWORD, NOT_REPEAT_PASSWORD);
+    }
+
+    if (userEdit.newPassword !== userEdit.repeatPassword) {
+      return popupLogic(CHANGE_PASSWORD, MUST_BE_THE_SAME);
+    }
+
+    if (userEdit.repeatPassword!.length <= 8) {
+      return popupLogic(CHANGE_PASSWORD, MINIMUM_EIGHT_CHAR);
+    }
+
+    if (!userEdit.repeatPassword.match(/\d+/g)) {
+      return popupLogic(CHANGE_PASSWORD, MUST_ONE_NUMBER);
+    }
+
+    listUsers.listUsers[editUserIndex].password = userEdit.repeatPassword!;
+    setEditUser({
+      username: "",
+      newPassword: "",
+      repeatPassword: "",
+      numTrainings: 0,
+    });
+    setOpenEditPassword(false);
+  };
+
   const handleClosePassword = () => {
     let editUserIndex = listUsers.listUsers.findIndex(
       (user) => user.id === editUser
     );
-    if (listUsers.listUsers[editUserIndex].username === userEdit.username) {
-      if (userEdit.newPassword) {
-        if (userEdit.repeatPassword) {
-          if (userEdit.newPassword === userEdit.repeatPassword) {
-            if (userEdit.repeatPassword.length >= 8) {
-              if (userEdit.repeatPassword.match(/\d+/g)) {
-                listUsers.listUsers[editUserIndex].password =
-                  userEdit.repeatPassword;
-                setEditUser({
-                  username: "",
-                  newPassword: "",
-                  repeatPassword: "",
-                  numTrainings: 0,
-                });
-                setOpenEditPassword(false);
-              } else {
-                popupLogic(CHANGE_PASSWORD, MUST_ONE_NUMBER);
-              }
-            } else {
-              popupLogic(CHANGE_PASSWORD, MINIMUM_EIGHT_CHAR);
-            }
-          } else {
-            popupLogic(CHANGE_PASSWORD, MUST_BE_THE_SAME);
-          }
-        } else {
-          popupLogic(CHANGE_PASSWORD, NOT_REPEAT_PASSWORD);
-        }
-      } else {
-        popupLogic(CHANGE_PASSWORD, NOT_ENTER_PASSWORD);
-      }
-    } else {
-      popupLogic(CHANGE_PASSWORD, NOT_VALID_USERNAME);
-    }
+
+    let checkUserName =
+      listUsers.listUsers[editUserIndex].username === userEdit.username;
+
+    helperCheckAndSetPassword(checkUserName, userEdit, editUserIndex);
   };
 
   const handleCancelPassword = () => {
