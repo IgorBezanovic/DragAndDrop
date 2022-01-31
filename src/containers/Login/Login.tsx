@@ -1,6 +1,5 @@
 import React, { ReactElement, useState } from "react";
 // import { useHistory } from "react-router-dom";
-import { Values } from "../../types/values.model";
 import listUsers from "../../service/listUsers";
 import "./style.css";
 import Popup from "../../common/Popup/popup";
@@ -13,13 +12,11 @@ import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useFormik } from "formik";
+import { loginValidationSchema } from "../../common/validation";
 
 const Login = (): ReactElement => {
   // let history = useHistory();
-  let [form, setForm] = useState<Values>({
-    username: "",
-    password: "",
-  });
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
@@ -32,6 +29,17 @@ const Login = (): ReactElement => {
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: loginValidationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -68,33 +76,23 @@ const Login = (): ReactElement => {
     setTimeout(() => setIsOpen(false), 3000);
   };
 
-  const updateForm = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-    field: keyof Values
-  ) => {
-    setForm({
-      ...form,
-      [field]: e.target.value,
-    });
-  };
-
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let user = userList.find(
-      (e) => e.username === form.username && e.password === form.password
+      (e) => e.username === formik.values.username && e.password === formik.values.password
     );
 
-    if (user) {
-      if (success) {
-        localStorage.setItem("id", user.id);
-        window.location.reload();
-        // history.push("/home");
-      } else {
-        popupLogic(LOGIN, TERMS);
-      }
-    } else {
+    if (!user) {
       popupLogic(LOGIN, LOGIN_INFO);
+      return;
+    }
+    if (success) {
+      localStorage.setItem("id", user.id);
+      window.location.reload();
+      // history.push("/home");
+    } else {
+      popupLogic(LOGIN, TERMS);
     }
   };
 
@@ -109,19 +107,24 @@ const Login = (): ReactElement => {
               type="text"
               name="username"
               className="form-input"
-              onChange={(e) => updateForm(e, "username")}
-              value={form.username}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.username}
             />
           </label>
+          {formik.touched.username ?
+            <p style={{ color: "red", marginBottom: '10px' }}>{formik.errors.username}</p>
+         : null}
           <FormControl sx={{ m: 1, width: "25ch" }} variant="filled">
-            <InputLabel htmlFor="filled-adornment-password">
+            <InputLabel htmlFor="password">
               Password:
             </InputLabel>
             <FilledInput
-              id="filled-adornment-password"
+              id="password"
               type={showPassword ? "text" : "password"}
-              value={form.password}
-              onChange={(e) => updateForm(e, "password")}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
@@ -136,6 +139,9 @@ const Login = (): ReactElement => {
               }
             />
           </FormControl>
+          {formik.touched.password ? 
+            <p style={{ color: "red", marginBottom: '10px' }}>{formik.errors.password}</p>
+           : null}
           <p>
             Our&nbsp;
             <a
