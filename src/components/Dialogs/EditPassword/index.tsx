@@ -62,12 +62,12 @@ const EditPassword = ({
       value={user.username}
     />
     <div style={{display: 'flex', flexDirection: 'column'}}>
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">
+      <FormControl sx={{ m: 1, width: "25ch" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password">
           {ENTER_THE_NEW_PASSWORD}
         </InputLabel>
         <FilledInput
-          id="outlined-adornment-password"
+          id="filled-adornment-password"
           type={showPassword ? "text" : "password"}
           value={user.newPassword}
           onChange={(e) => handleChangeUser(e, "newPassword")}
@@ -85,12 +85,12 @@ const EditPassword = ({
           }
         />
       </FormControl>
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">
+      <FormControl sx={{ m: 1, width: "25ch" }} variant="filled">
+        <InputLabel htmlFor="filled-adornment-password-second">
           {ENTER_THE_REPEAT_PASSWORD}
         </InputLabel>
         <FilledInput
-          id="outlined-adornment-password"
+          id="filled-adornment-password-second"
           type={showRepeatPassword ? "text" : "password"}
           value={user.repeatPassword}
           onChange={(e) => handleChangeUser(e, "repeatPassword")}
