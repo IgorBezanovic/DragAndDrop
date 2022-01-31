@@ -4,6 +4,7 @@
     justify-content: flex-start;
     flex-direction: column;
     height: 100%;
+    min-height: 100vh;;
     background-color: #1942f5;
     background-image: url('../../assets/images/logo9.png');
     background-repeat: space;

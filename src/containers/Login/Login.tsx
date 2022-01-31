@@ -7,6 +7,12 @@ import Popup from "../../common/Popup/popup";
 import BoxAccept from "../../components/AcceptTerms";
 import green from "@mui/material/colors/green";
 import { LOGIN, LOGIN_INFO, TERMS } from "../../common/constants";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import FilledInput from "@mui/material/FilledInput";
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = (): ReactElement => {
   // let history = useHistory();
@@ -18,11 +24,20 @@ const Login = (): ReactElement => {
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
   let userList = listUsers.listUsers;
-
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const timer = React.useRef<number>();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+  };
   const buttonSx = {
     ...(success && {
       bgcolor: green[500],
@@ -54,7 +69,7 @@ const Login = (): ReactElement => {
   };
 
   const updateForm = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     field: keyof Values
   ) => {
     setForm({
@@ -98,16 +113,29 @@ const Login = (): ReactElement => {
               value={form.username}
             />
           </label>
-          <label>
-            <p className="label-name">Password:</p>
-            <input
-              type="password"
-              name="password"
-              className="form-input"
-              onChange={(e) => updateForm(e, "password")}
+          <FormControl sx={{ m: 1, width: "25ch" }} variant="filled">
+            <InputLabel htmlFor="filled-adornment-password">
+              Password:
+            </InputLabel>
+            <FilledInput
+              id="filled-adornment-password"
+              type={showPassword ? "text" : "password"}
               value={form.password}
+              onChange={(e) => updateForm(e, "password")}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
-          </label>
+          </FormControl>
           <p>
             Our&nbsp;
             <a
