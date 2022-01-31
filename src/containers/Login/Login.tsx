@@ -80,7 +80,9 @@ const Login = (): ReactElement => {
     e.preventDefault();
 
     let user = userList.find(
-      (e) => e.username === formik.values.username && e.password === formik.values.password
+      (e) =>
+        e.username === formik.values.username &&
+        e.password === formik.values.password
     );
 
     if (!user) {
@@ -112,13 +114,13 @@ const Login = (): ReactElement => {
               value={formik.values.username}
             />
           </label>
-          {formik.touched.username ?
-            <p style={{ color: "red", marginBottom: '10px' }}>{formik.errors.username}</p>
-         : null}
+          {formik.touched.username ? (
+            <p style={{ color: "red", marginBottom: "10px" }}>
+              {formik.errors.username}
+            </p>
+          ) : null}
           <FormControl sx={{ m: 1, width: "25ch" }} variant="filled">
-            <InputLabel htmlFor="password">
-              Password:
-            </InputLabel>
+            <InputLabel htmlFor="password">Password:</InputLabel>
             <FilledInput
               id="password"
               type={showPassword ? "text" : "password"}
@@ -139,9 +141,11 @@ const Login = (): ReactElement => {
               }
             />
           </FormControl>
-          {formik.touched.password ? 
-            <p style={{ color: "red", marginBottom: '10px' }}>{formik.errors.password}</p>
-           : null}
+          {formik.touched.password ? (
+            <p style={{ color: "red", marginBottom: "10px" }}>
+              {formik.errors.password}
+            </p>
+          ) : null}
           <p>
             Our&nbsp;
             <a
