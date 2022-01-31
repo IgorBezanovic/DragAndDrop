@@ -1,3 +1,10 @@
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import FilledInput from "@mui/material/FilledInput";
+import FormControl from "@mui/material/FormControl";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import InputLabel from "@mui/material/InputLabel";
 import TextField from "@mui/material/TextField";
 import {
   ENTER_THE_NAME,
@@ -15,6 +22,11 @@ const EditPassword = ({
   addTraining,
   handleChangeUser,
   user,
+  handleClickShowPassword,
+  handleClickShowRepeatPassword,
+  handleMouseDownPassword,
+  showPassword,
+  showRepeatPassword,
 }: {
   title: string;
   content: string;
@@ -26,6 +38,11 @@ const EditPassword = ({
     field: keyof Values
   ) => void;
   user: Values;
+  handleClickShowPassword: () => void;
+  handleClickShowRepeatPassword: () => void;
+  handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  showPassword: boolean;
+  showRepeatPassword: boolean;
 }) => (
   <Dialog
     title={title}
@@ -44,26 +61,54 @@ const EditPassword = ({
       onChange={(e) => handleChangeUser(e, "username")}
       value={user.username}
     />
-    <TextField
-      margin="dense"
-      id="newPassword"
-      label={ENTER_THE_NEW_PASSWORD}
-      type="text"
-      fullWidth
-      variant="standard"
-      onChange={(e) => handleChangeUser(e, "newPassword")}
-      value={user.newPassword}
-    />
-    <TextField
-      margin="dense"
-      id="repeatPassword"
-      label={ENTER_THE_REPEAT_PASSWORD}
-      type="text"
-      fullWidth
-      variant="standard"
-      onChange={(e) => handleChangeUser(e, "repeatPassword")}
-      value={user.repeatPassword}
-    />
+    <div style={{display: 'flex', flexDirection: 'column'}}>
+      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">
+          {ENTER_THE_NEW_PASSWORD}
+        </InputLabel>
+        <FilledInput
+          id="outlined-adornment-password"
+          type={showPassword ? "text" : "password"}
+          value={user.newPassword}
+          onChange={(e) => handleChangeUser(e, "newPassword")}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+      <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
+        <InputLabel htmlFor="outlined-adornment-password">
+          {ENTER_THE_REPEAT_PASSWORD}
+        </InputLabel>
+        <FilledInput
+          id="outlined-adornment-password"
+          type={showRepeatPassword ? "text" : "password"}
+          value={user.repeatPassword}
+          onChange={(e) => handleChangeUser(e, "repeatPassword")}
+          endAdornment={
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowRepeatPassword}
+                onMouseDown={handleMouseDownPassword}
+                edge="end"
+              >
+                {showRepeatPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            </InputAdornment>
+          }
+        />
+      </FormControl>
+    </div>
   </Dialog>
 );
 export default EditPassword;

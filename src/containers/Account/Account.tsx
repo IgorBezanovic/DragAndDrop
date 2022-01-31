@@ -67,6 +67,19 @@ const Account: React.FC = () => {
   const [openLogout, setOpenLogout] = useState<boolean>(false);
   const [openNewUser, setOpenNewUser] = useState<boolean>(false);
   const [editUser, setEditUserId] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState<boolean>(false);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+  const handleClickShowRepeatPassword = () => {
+    setShowRepeatPassword(!showRepeatPassword);
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -334,6 +347,11 @@ const Account: React.FC = () => {
             addTraining={handleClosePassword}
             handleChangeUser={handleChangeUser}
             user={userEdit}
+            handleClickShowPassword={handleClickShowPassword}
+            handleClickShowRepeatPassword={handleClickShowRepeatPassword}
+            handleMouseDownPassword={handleMouseDownPassword}
+            showPassword={showPassword}
+            showRepeatPassword={showRepeatPassword}
           />
           <EditNumTrainings
             title={EDIT_NUM_TRAININGS}

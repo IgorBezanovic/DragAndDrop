@@ -109,7 +109,7 @@ const Login = (): ReactElement => {
             />
           </label>
           <p>
-            Our{" "}
+            Our&nbsp;
             <a
               href="https://www.levi9.com/about/"
               target="_blank"
