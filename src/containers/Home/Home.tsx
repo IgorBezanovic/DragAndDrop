@@ -25,7 +25,7 @@ import {
 } from "../../common/constants";
 
 const Home: React.FC = () => {
-  const currentId: string | null = localStorage.getItem("id");
+  const currentId: string = localStorage.getItem("id")!;
   const userList = listUsers.listUsers;
   let user: User | undefined = userList.find((item) => item.id === currentId);
   const [listMembers, setMembers] = useState<Training[]>(

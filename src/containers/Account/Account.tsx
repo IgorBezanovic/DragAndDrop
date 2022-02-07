@@ -39,7 +39,7 @@ import {
 } from "../../common/constants";
 
 const Account: React.FC = () => {
-  const currentId: string | null = localStorage.getItem("id");
+  const currentId: string = localStorage.getItem("id")!;
   const [userList, setUser] = useState<User[]>(listUsers.listUsers);
   let [name, setName] = useState<Values>({
     username: "",

@@ -24,7 +24,7 @@ const Trainings: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [popupTitle, setTitle] = useState<string>("");
   const [popupContent, setContent] = useState<string>("");
-  const currentId: string | null = localStorage.getItem("id");
+  const currentId: string = localStorage.getItem("id")!;
   const userList = listUsers.listUsers;
   let user: User | undefined = userList.find((item) => item.id === currentId);
 
