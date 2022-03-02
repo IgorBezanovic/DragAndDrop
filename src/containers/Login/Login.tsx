@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from "react";
 // import { useHistory } from "react-router-dom";
 import listUsers from "../../service/listUsers";
 import "./style.css";
-import Popup from "../../common/Popup/popup";
+// import Popup from "../../common/Popup/popup";
 import BoxAccept from "../../components/AcceptTerms";
 import green from "@mui/material/colors/green";
 import { LOGIN, LOGIN_INFO, TERMS } from "../../common/constants";
@@ -14,6 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
 import { loginValidationSchema } from "../../common/validation";
+import Popup from "../../common/Popup/popup";
 
 const Login = (): ReactElement => {
   // let history = useHistory();
