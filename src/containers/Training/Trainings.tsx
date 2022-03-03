@@ -114,12 +114,12 @@ const Trainings: React.FC = () => {
           takeSpot={takeSpot}
         />
       </div>
-        <Popup
-          title={popupTitle}
-          content={popupContent}
-          handleClose={togglePopup}
-          open={isOpen}
-          addFunction={togglePopup}
+      <Popup
+        title={popupTitle}
+        content={popupContent}
+        handleClose={togglePopup}
+        open={isOpen}
+        addFunction={togglePopup}
         > </Popup>
     </div>
   );

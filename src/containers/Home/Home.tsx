@@ -5,7 +5,7 @@ import { Training } from "../../types/training.model";
 import AllTrainings from "../../components/AllTrainings/allTrainings";
 import "./style.css";
 import { v4 as uuidv4 } from "uuid";
-import Popup from "../../common/Popup/popup";
+import Popup from "../../common/Dialog/dialog";
 import AddExtraTraining from "../../components/Dialogs/AddExtraTraining";
 import { User } from "../../types/user.model";
 import {
@@ -160,13 +160,13 @@ const Home: React.FC = () => {
               removeMember={removeMember}
             />
           ))}
-          {isOpen && (
-            <Popup
-              title={popupTitle}
-              content={popupContent}
-              handleClose={togglePopup}
-            />
-          )}
+          <Popup
+            title={popupTitle}
+            content={popupContent}
+            handleClose={togglePopup}
+            open={isOpen}
+            addFunction={togglePopup}
+          > </Popup>
           <AddExtraTraining
             title={ADD_TRAINING}
             content={REQUIRED_INFO}

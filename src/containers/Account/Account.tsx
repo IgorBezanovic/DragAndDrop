@@ -8,7 +8,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Values } from "../../types/values.model";
 import TableAllUsers from "../../components/Table/index";
-import Popup from "../../common/Popup/popup";
+import Popup from "../../common/Dialog/dialog";
 import EditNumTrainings from "../../components/Dialogs/EditNumTrainings/index";
 import EditPassword from "../../components/Dialogs/EditPassword/index";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -390,13 +390,13 @@ const Account: React.FC = () => {
           <p>uslovi prilikom registracije - PROGRESS</p>
         </div>
       )}
-      {isOpen && (
-        <Popup
-          title={popupTitle}
-          content={popupContent}
-          handleClose={togglePopup}
-        />
-      )}
+      <Popup
+        title={popupTitle}
+        content={popupContent}
+        handleClose={togglePopup}
+        open={isOpen}
+        addFunction={togglePopup}
+        > </Popup>
       <Button
         variant="outlined"
         color="secondary"
