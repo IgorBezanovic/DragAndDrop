@@ -5,7 +5,7 @@ import { listDays } from "../../service/listDays";
 import listTrainings from "../../service/listTrenings";
 import DayButton from "../../components/DayButton/dayButton";
 import TrainingWrapper from "../../components/TrainingWrapper/trainingWrapper";
-import Popup from "../../common/Popup/popup";
+import Popup from "../../common/Dialog/dialog";
 import { User } from "../../types/user.model";
 import listUsers from "../../service/listUsers";
 import {
@@ -114,13 +114,13 @@ const Trainings: React.FC = () => {
           takeSpot={takeSpot}
         />
       </div>
-      {isOpen && (
         <Popup
           title={popupTitle}
           content={popupContent}
           handleClose={togglePopup}
-        />
-      )}
+          open={isOpen}
+          addFunction={togglePopup}
+        > </Popup>
     </div>
   );
 };
