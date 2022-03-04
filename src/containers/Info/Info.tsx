@@ -4,7 +4,7 @@ const Info: React.FC = () => {
   return (
     <div>
       <h1>Info</h1>
-      <form action="../../post" method="post" 
+      <form action="/training" method="post" 
               className="form">
           <button type="submit">Connected?</button>
         </form>
